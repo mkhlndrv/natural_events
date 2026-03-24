@@ -13,6 +13,7 @@
     "build:vue": "npm run build -w apps/vue",
     "lint": "eslint 'apps/*/src/**/*.{ts,tsx,vue}'",
     "format": "prettier --write 'apps/*/src/**/*.{ts,tsx,vue,css,json}'",
+    "format:check": "prettier --check 'apps/*/src/**/*.{ts,tsx,vue,css,json}'",
     "test:react": "npm run test -w apps/react",
     "test:vue": "npm run test -w apps/vue",
     "test": "npm run test:react && npm run test:vue",
