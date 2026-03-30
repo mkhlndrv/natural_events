@@ -4,7 +4,7 @@ import { describe, it, expect } from 'vitest';
 import Navbar from '../components/Navbar';
 
 describe('Navbar', () => {
-  it('renders all 4 navigation links', () => {
+  it('renders all navigation links', () => {
     render(
       <MemoryRouter>
         <Navbar />
@@ -12,11 +12,10 @@ describe('Navbar', () => {
     );
 
     const links = screen.getAllByRole('link');
-    expect(links).toHaveLength(4);
+    expect(links).toHaveLength(3);
 
     const hrefs = links.map((link) => link.getAttribute('href'));
     expect(hrefs).toContain('/');
-    expect(hrefs).toContain('/event/1');
     expect(hrefs).toContain('/analytics');
     expect(hrefs).toContain('/about');
   });
