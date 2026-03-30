@@ -9,7 +9,7 @@ const links = [
 </script>
 
 <template>
-  <nav class="bg-white shadow">
+  <nav aria-label="Main navigation" class="bg-white shadow">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex h-16 items-center justify-between">
         <span class="text-xl font-bold text-indigo-600">NaturalEvents</span>

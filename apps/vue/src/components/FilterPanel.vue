@@ -22,10 +22,10 @@ const eventTypes = [
 <template>
   <div class="rounded-lg bg-white p-4 shadow">
     <div class="flex flex-wrap items-end gap-4">
-      <div>
-        <label class="mb-1 block text-xs font-medium text-gray-600"
-          >Event Type</label
-        >
+      <fieldset>
+        <legend class="mb-1 text-xs font-medium text-gray-600">
+          Event Type
+        </legend>
         <div class="flex rounded-md border border-gray-300">
           <button
             v-for="t in eventTypes"
@@ -41,13 +41,16 @@ const eventTypes = [
             {{ t.label }}
           </button>
         </div>
-      </div>
+      </fieldset>
 
       <div>
-        <label class="mb-1 block text-xs font-medium text-gray-600"
+        <label
+          for="min-magnitude"
+          class="mb-1 block text-xs font-medium text-gray-600"
           >Min Magnitude</label
         >
         <input
+          id="min-magnitude"
           type="number"
           :value="minMagnitude"
           :min="0"
@@ -61,10 +64,13 @@ const eventTypes = [
       </div>
 
       <div>
-        <label class="mb-1 block text-xs font-medium text-gray-600"
+        <label
+          for="max-magnitude"
+          class="mb-1 block text-xs font-medium text-gray-600"
           >Max Magnitude</label
         >
         <input
+          id="max-magnitude"
           type="number"
           :value="maxMagnitude"
           :min="0"
@@ -78,10 +84,13 @@ const eventTypes = [
       </div>
 
       <div>
-        <label class="mb-1 block text-xs font-medium text-gray-600"
+        <label
+          for="start-date"
+          class="mb-1 block text-xs font-medium text-gray-600"
           >Start Date</label
         >
         <input
+          id="start-date"
           type="date"
           :value="startDate"
           class="rounded-md border border-gray-300 px-2 py-1.5 text-sm"
@@ -90,10 +99,13 @@ const eventTypes = [
       </div>
 
       <div>
-        <label class="mb-1 block text-xs font-medium text-gray-600"
+        <label
+          for="end-date"
+          class="mb-1 block text-xs font-medium text-gray-600"
           >End Date</label
         >
         <input
+          id="end-date"
           type="date"
           :value="endDate"
           class="rounded-md border border-gray-300 px-2 py-1.5 text-sm"
@@ -102,10 +114,13 @@ const eventTypes = [
       </div>
 
       <div>
-        <label class="mb-1 block text-xs font-medium text-gray-600"
+        <label
+          for="eonet-status"
+          class="mb-1 block text-xs font-medium text-gray-600"
           >EONET Status</label
         >
         <select
+          id="eonet-status"
           :value="eonetStatus"
           class="rounded-md border border-gray-300 px-2 py-1.5 text-sm"
           @change="

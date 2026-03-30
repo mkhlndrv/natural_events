@@ -8,7 +8,7 @@ const links = [
 
 function Navbar() {
   return (
-    <nav className="bg-white shadow">
+    <nav aria-label="Main navigation" className="bg-white shadow">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <span className="text-xl font-bold text-indigo-600">

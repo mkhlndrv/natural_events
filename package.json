@@ -19,6 +19,8 @@
     "test": "npm run test:react && npm run test:vue",
     "storybook:react": "npm run storybook -w apps/react",
     "storybook:vue": "npm run storybook -w apps/vue",
+    "analyze:react": "ANALYZE=true npm run build -w apps/react",
+    "analyze:vue": "ANALYZE=true npm run build -w apps/vue",
     "prepare": "husky || true"
   },
   "lint-staged": {

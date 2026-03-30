@@ -26,10 +26,10 @@ function FilterPanel() {
   return (
     <div className="rounded-lg bg-white p-4 shadow">
       <div className="flex flex-wrap items-end gap-4">
-        <div>
-          <label className="mb-1 block text-xs font-medium text-gray-600">
+        <fieldset>
+          <legend className="mb-1 text-xs font-medium text-gray-600">
             Event Type
-          </label>
+          </legend>
           <div className="flex rounded-md border border-gray-300">
             {eventTypes.map((t) => (
               <button
@@ -45,13 +45,17 @@ function FilterPanel() {
               </button>
             ))}
           </div>
-        </div>
+        </fieldset>
 
         <div>
-          <label className="mb-1 block text-xs font-medium text-gray-600">
+          <label
+            htmlFor="min-magnitude"
+            className="mb-1 block text-xs font-medium text-gray-600"
+          >
             Min Magnitude
           </label>
           <input
+            id="min-magnitude"
             type="number"
             value={minMagnitude}
             onChange={(e) => setMinMagnitude(Number(e.target.value))}
@@ -63,10 +67,14 @@ function FilterPanel() {
         </div>
 
         <div>
-          <label className="mb-1 block text-xs font-medium text-gray-600">
+          <label
+            htmlFor="max-magnitude"
+            className="mb-1 block text-xs font-medium text-gray-600"
+          >
             Max Magnitude
           </label>
           <input
+            id="max-magnitude"
             type="number"
             value={maxMagnitude}
             onChange={(e) => setMaxMagnitude(Number(e.target.value))}
@@ -78,10 +86,14 @@ function FilterPanel() {
         </div>
 
         <div>
-          <label className="mb-1 block text-xs font-medium text-gray-600">
+          <label
+            htmlFor="start-date"
+            className="mb-1 block text-xs font-medium text-gray-600"
+          >
             Start Date
           </label>
           <input
+            id="start-date"
             type="date"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
@@ -90,10 +102,14 @@ function FilterPanel() {
         </div>
 
         <div>
-          <label className="mb-1 block text-xs font-medium text-gray-600">
+          <label
+            htmlFor="end-date"
+            className="mb-1 block text-xs font-medium text-gray-600"
+          >
             End Date
           </label>
           <input
+            id="end-date"
             type="date"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
@@ -102,10 +118,14 @@ function FilterPanel() {
         </div>
 
         <div>
-          <label className="mb-1 block text-xs font-medium text-gray-600">
+          <label
+            htmlFor="eonet-status"
+            className="mb-1 block text-xs font-medium text-gray-600"
+          >
             EONET Status
           </label>
           <select
+            id="eonet-status"
             value={eonetStatus}
             onChange={(e) =>
               setEonetStatus(e.target.value as 'all' | 'open' | 'closed')
