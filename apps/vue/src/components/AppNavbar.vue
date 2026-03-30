@@ -3,7 +3,6 @@ import { RouterLink } from 'vue-router';
 
 const links = [
   { to: '/', label: 'Dashboard' },
-  { to: '/event/1', label: 'Events' },
   { to: '/analytics', label: 'Analytics' },
   { to: '/about', label: 'About' },
 ];
@@ -20,7 +19,7 @@ const links = [
             :key="link.to"
             :to="link.to"
             class="rounded-md px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900"
-            active-class="bg-indigo-100 !text-indigo-700"
+            exact-active-class="bg-indigo-100 !text-indigo-700"
           >
             {{ link.label }}
           </RouterLink>
