@@ -17,6 +17,7 @@
     "test:react": "npm run test -w apps/react",
     "test:vue": "npm run test -w apps/vue",
     "test": "npm run test:react && npm run test:vue",
+    "e2e": "npx playwright test",
     "storybook:react": "npm run storybook -w apps/react",
     "storybook:vue": "npm run storybook -w apps/vue",
     "analyze:react": "ANALYZE=true npm run build -w apps/react",
@@ -37,6 +38,7 @@
     ]
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.2",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
     "eslint": "^8.57.0",
