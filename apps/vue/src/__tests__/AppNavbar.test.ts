@@ -7,14 +7,13 @@ const router = createRouter({
   history: createMemoryHistory(),
   routes: [
     { path: '/', component: { template: '<div>Home</div>' } },
-    { path: '/event/:id', component: { template: '<div>Event</div>' } },
     { path: '/analytics', component: { template: '<div>Analytics</div>' } },
     { path: '/about', component: { template: '<div>About</div>' } },
   ],
 });
 
 describe('AppNavbar', () => {
-  it('renders all 4 navigation links', async () => {
+  it('renders all 3 navigation links', async () => {
     router.push('/');
     await router.isReady();
 
@@ -25,11 +24,10 @@ describe('AppNavbar', () => {
     });
 
     const links = wrapper.findAll('a');
-    expect(links).toHaveLength(4);
+    expect(links).toHaveLength(3);
 
     const hrefs = links.map((link) => link.attributes('href'));
     expect(hrefs).toContain('/');
-    expect(hrefs).toContain('/event/1');
     expect(hrefs).toContain('/analytics');
     expect(hrefs).toContain('/about');
   });
