@@ -7,16 +7,29 @@ export default defineConfig({
   plugins: [vue(), process.env.ANALYZE === 'true' && analyzer()].filter(
     Boolean
   ),
+  resolve: {
+    alias: [
+      { find: /^leaflet$/, replacement: 'leaflet/dist/leaflet-src.esm.js' },
+    ],
+  },
   server: {
     port: 3001,
   },
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['vue', 'vue-router', 'pinia'],
-          leaflet: ['leaflet', '@vue-leaflet/vue-leaflet'],
-          chartjs: ['chart.js', 'vue-chartjs'],
+        manualChunks(id) {
+          if (id.includes('vue/') && id.includes('node_modules')) {
+            if (
+              id.includes('/vue/') ||
+              id.includes('vue-router') ||
+              id.includes('pinia')
+            )
+              return 'vendor';
+          }
+          if (id.includes('leaflet')) return 'leaflet';
+          if (id.includes('chart.js') || id.includes('vue-chartjs'))
+            return 'chartjs';
         },
       },
     },
