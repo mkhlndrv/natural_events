@@ -20,21 +20,23 @@ const eventTypes = [
 </script>
 
 <template>
-  <div class="rounded-lg bg-white p-4 shadow">
+  <div class="rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-100">
     <div class="flex flex-wrap items-end gap-4">
       <fieldset>
-        <legend class="mb-1 text-xs font-medium text-gray-600">
+        <legend
+          class="mb-1.5 text-xs font-semibold uppercase tracking-wide text-gray-400"
+        >
           Event Type
         </legend>
-        <div class="flex rounded-md border border-gray-300">
+        <div class="flex rounded-lg border border-gray-200">
           <button
             v-for="t in eventTypes"
             :key="t.value"
             :class="[
-              'px-3 py-1.5 text-sm font-medium first:rounded-l-md last:rounded-r-md',
+              'px-3 py-1.5 text-sm font-medium transition-all first:rounded-l-lg last:rounded-r-lg',
               eventType === t.value
-                ? 'bg-indigo-600 text-white'
-                : 'bg-white text-gray-700 hover:bg-gray-50',
+                ? 'bg-indigo-600 text-white shadow-sm'
+                : 'bg-white text-gray-600 hover:bg-gray-50',
             ]"
             @click="eventType = t.value"
           >
@@ -46,7 +48,7 @@ const eventTypes = [
       <div>
         <label
           for="min-magnitude"
-          class="mb-1 block text-xs font-medium text-gray-600"
+          class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-400"
           >Min Magnitude</label
         >
         <input
@@ -56,7 +58,7 @@ const eventTypes = [
           :min="0"
           :max="10"
           :step="0.5"
-          class="w-24 rounded-md border border-gray-300 px-2 py-1.5 text-sm"
+          class="w-24 rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-100"
           @input="
             minMagnitude = Number(($event.target as HTMLInputElement).value)
           "
@@ -66,7 +68,7 @@ const eventTypes = [
       <div>
         <label
           for="max-magnitude"
-          class="mb-1 block text-xs font-medium text-gray-600"
+          class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-400"
           >Max Magnitude</label
         >
         <input
@@ -76,7 +78,7 @@ const eventTypes = [
           :min="0"
           :max="10"
           :step="0.5"
-          class="w-24 rounded-md border border-gray-300 px-2 py-1.5 text-sm"
+          class="w-24 rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-100"
           @input="
             maxMagnitude = Number(($event.target as HTMLInputElement).value)
           "
@@ -86,14 +88,14 @@ const eventTypes = [
       <div>
         <label
           for="start-date"
-          class="mb-1 block text-xs font-medium text-gray-600"
+          class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-400"
           >Start Date</label
         >
         <input
           id="start-date"
           type="date"
           :value="startDate"
-          class="rounded-md border border-gray-300 px-2 py-1.5 text-sm"
+          class="rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-100"
           @input="startDate = ($event.target as HTMLInputElement).value"
         />
       </div>
@@ -101,14 +103,14 @@ const eventTypes = [
       <div>
         <label
           for="end-date"
-          class="mb-1 block text-xs font-medium text-gray-600"
+          class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-400"
           >End Date</label
         >
         <input
           id="end-date"
           type="date"
           :value="endDate"
-          class="rounded-md border border-gray-300 px-2 py-1.5 text-sm"
+          class="rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-100"
           @input="endDate = ($event.target as HTMLInputElement).value"
         />
       </div>
@@ -116,13 +118,13 @@ const eventTypes = [
       <div>
         <label
           for="eonet-status"
-          class="mb-1 block text-xs font-medium text-gray-600"
+          class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-400"
           >EONET Status</label
         >
         <select
           id="eonet-status"
           :value="eonetStatus"
-          class="rounded-md border border-gray-300 px-2 py-1.5 text-sm"
+          class="rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-100"
           @change="
             eonetStatus = ($event.target as HTMLSelectElement).value as
               | 'all'
@@ -137,7 +139,7 @@ const eventTypes = [
       </div>
 
       <button
-        class="rounded-md border border-gray-300 px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+        class="rounded-lg border border-gray-200 px-3 py-1.5 text-sm font-medium text-gray-500 transition-all hover:bg-gray-50 hover:text-gray-700"
         @click="store.resetFilters()"
       >
         Reset

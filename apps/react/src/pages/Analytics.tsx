@@ -87,26 +87,28 @@ function Analytics() {
   const hasData = visibleQuakes.length > 0 || visibleEonet.length > 0;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
       <FilterPanel />
 
       {error && (
-        <div className="rounded-lg bg-red-50 p-3 text-sm text-red-700">
+        <div className="rounded-xl bg-red-50 p-3 text-sm text-red-600">
           {error}
         </div>
       )}
 
       {loading ? (
         <div className="flex h-64 items-center justify-center">
-          <p className="text-gray-500">Loading analytics...</p>
+          <p className="text-sm text-gray-400">Loading analytics...</p>
         </div>
       ) : !hasData ? (
-        <div className="flex h-64 items-center justify-center rounded-lg bg-white shadow">
-          <p className="text-gray-500">No events match your current filters.</p>
+        <div className="flex h-64 items-center justify-center rounded-xl bg-white shadow-sm ring-1 ring-gray-100">
+          <p className="text-sm text-gray-400">
+            No events match your current filters.
+          </p>
         </div>
       ) : (
         <div className="space-y-6">
-          <div className="rounded-lg bg-white p-6 shadow">
+          <div className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
             <h2 className="mb-4 text-lg font-semibold text-gray-900">
               Magnitude Distribution
             </h2>
@@ -127,7 +129,7 @@ function Analytics() {
             )}
           </div>
 
-          <div className="rounded-lg bg-white p-6 shadow">
+          <div className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
             <h2 className="mb-4 text-lg font-semibold text-gray-900">
               Events Over Time
             </h2>

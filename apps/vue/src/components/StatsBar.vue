@@ -28,10 +28,12 @@ const stats = computed(() => {
     <div
       v-for="stat in stats"
       :key="stat.label"
-      class="rounded-lg bg-white p-4 text-center shadow"
+      class="rounded-xl bg-white p-4 text-center shadow-sm ring-1 ring-gray-100"
     >
-      <p class="text-sm text-gray-500">{{ stat.label }}</p>
-      <p class="text-2xl font-bold text-gray-900">{{ stat.value }}</p>
+      <p class="text-xs font-semibold uppercase tracking-wide text-gray-400">
+        {{ stat.label }}
+      </p>
+      <p class="mt-1 text-2xl font-bold text-gray-900">{{ stat.value }}</p>
     </div>
   </div>
 </template>

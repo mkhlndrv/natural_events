@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import 'leaflet';
 import { ref, computed, onMounted } from 'vue';
 import { useRoute, RouterLink } from 'vue-router';
 import { LMap, LTileLayer, LCircleMarker } from '@vue-leaflet/vue-leaflet';
@@ -67,7 +66,7 @@ onMounted(() => {
     <RouterLink to="/" class="text-indigo-600 hover:underline">
       &#8592; Back to Dashboard
     </RouterLink>
-    <div class="rounded-lg bg-red-50 p-4 text-red-700">{{ error }}</div>
+    <div class="rounded-xl bg-red-50 p-4 text-red-600">{{ error }}</div>
   </div>
 
   <!-- Earthquake Detail -->
@@ -86,7 +85,7 @@ onMounted(() => {
     </div>
 
     <div class="grid gap-6 md:grid-cols-2">
-      <div class="rounded-lg bg-white p-6 shadow">
+      <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
         <h2 class="mb-4 text-lg font-semibold text-gray-900">Details</h2>
         <dl class="space-y-3">
           <div class="flex justify-between">
@@ -141,7 +140,9 @@ onMounted(() => {
         </a>
       </div>
 
-      <div class="h-[300px] w-full overflow-hidden rounded-lg shadow">
+      <div
+        class="h-[300px] w-full overflow-hidden rounded-xl shadow-sm ring-1 ring-gray-100"
+      >
         <LMap
           :center="[eqCoords!.lat, eqCoords!.lon]"
           :zoom="6"
@@ -178,7 +179,7 @@ onMounted(() => {
     </div>
 
     <div class="grid gap-6 md:grid-cols-2">
-      <div class="rounded-lg bg-white p-6 shadow">
+      <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
         <h2 class="mb-4 text-lg font-semibold text-gray-900">Details</h2>
         <dl class="space-y-3">
           <div class="flex justify-between">
@@ -233,7 +234,7 @@ onMounted(() => {
 
       <div
         v-if="eonetCoords"
-        class="h-[300px] w-full overflow-hidden rounded-lg shadow"
+        class="h-[300px] w-full overflow-hidden rounded-xl shadow-sm ring-1 ring-gray-100"
       >
         <LMap
           :center="[eonetCoords.lat, eonetCoords.lon]"

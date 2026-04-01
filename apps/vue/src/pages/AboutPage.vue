@@ -24,7 +24,7 @@ const techStack = [
       </p>
     </div>
 
-    <div class="rounded-lg bg-white p-6 shadow">
+    <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
       <h2 class="mb-3 text-lg font-semibold text-gray-900">Data APIs</h2>
       <ul class="space-y-2 text-sm text-gray-600">
         <li>
@@ -54,7 +54,7 @@ const techStack = [
       </ul>
     </div>
 
-    <div class="rounded-lg bg-white p-6 shadow">
+    <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
       <h2 class="mb-3 text-lg font-semibold text-gray-900">Tech Stack</h2>
       <div class="flex flex-wrap gap-2">
         <span
@@ -67,7 +67,7 @@ const techStack = [
       </div>
     </div>
 
-    <div class="rounded-lg bg-white p-6 shadow">
+    <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
       <h2 class="mb-3 text-lg font-semibold text-gray-900">Course</h2>
       <p class="text-sm text-gray-600">
         Built for the Frontend Frameworks course at Harbour.Space University.

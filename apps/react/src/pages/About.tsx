@@ -12,7 +12,7 @@ function About() {
         </p>
       </div>
 
-      <div className="rounded-lg bg-white p-6 shadow">
+      <div className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
         <h2 className="mb-3 text-lg font-semibold text-gray-900">Data APIs</h2>
         <ul className="space-y-2 text-sm text-gray-600">
           <li>
@@ -42,7 +42,7 @@ function About() {
         </ul>
       </div>
 
-      <div className="rounded-lg bg-white p-6 shadow">
+      <div className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
         <h2 className="mb-3 text-lg font-semibold text-gray-900">Tech Stack</h2>
         <div className="flex flex-wrap gap-2">
           {[
@@ -67,7 +67,7 @@ function About() {
         </div>
       </div>
 
-      <div className="rounded-lg bg-white p-6 shadow">
+      <div className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
         <h2 className="mb-3 text-lg font-semibold text-gray-900">Course</h2>
         <p className="text-sm text-gray-600">
           Built for the Frontend Frameworks course at Harbour.Space University.
