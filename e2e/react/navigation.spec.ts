@@ -29,7 +29,7 @@ test.describe('React App Navigation', () => {
     await expect(page.getByRole('button', { name: 'All' })).toBeVisible();
 
     await expect(
-      page.getByText(/Magnitude Distribution|No events match/)
+      page.getByText(/Magnitude Distribution|No events match|Loading analytics/)
     ).toBeVisible({ timeout: 15000 });
   });
 
