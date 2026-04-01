@@ -48,7 +48,7 @@ function EventDetail() {
         <Link to="/" className="text-indigo-600 hover:underline">
           &larr; Back to Dashboard
         </Link>
-        <div className="rounded-lg bg-red-50 p-4 text-red-700">{error}</div>
+        <div className="rounded-xl bg-red-50 p-4 text-red-600">{error}</div>
       </div>
     );
   }
@@ -83,7 +83,7 @@ function EarthquakeDetail({ event }: { event: EarthquakeFeature }) {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
-        <div className="rounded-lg bg-white p-6 shadow">
+        <div className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
           <h2 className="mb-4 text-lg font-semibold text-gray-900">Details</h2>
           <dl className="space-y-3">
             <DetailRow
@@ -109,7 +109,7 @@ function EarthquakeDetail({ event }: { event: EarthquakeFeature }) {
           </a>
         </div>
 
-        <div className="overflow-hidden rounded-lg shadow">
+        <div className="overflow-hidden rounded-xl shadow-sm ring-1 ring-gray-100">
           <MapContainer
             center={center}
             zoom={6}
@@ -154,7 +154,7 @@ function EonetDetail({ event }: { event: EonetEvent }) {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
-        <div className="rounded-lg bg-white p-6 shadow">
+        <div className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
           <h2 className="mb-4 text-lg font-semibold text-gray-900">Details</h2>
           <dl className="space-y-3">
             <DetailRow label="Category" value={category} />
@@ -201,7 +201,7 @@ function EonetDetail({ event }: { event: EonetEvent }) {
           )}
         </div>
 
-        <div className="overflow-hidden rounded-lg shadow">
+        <div className="overflow-hidden rounded-xl shadow-sm ring-1 ring-gray-100">
           <MapContainer
             center={center}
             zoom={6}

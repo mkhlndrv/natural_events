@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import 'leaflet';
 import {
   LMap,
   LTileLayer,
@@ -34,7 +33,9 @@ function getCategoryColor(categoryId: string) {
 </script>
 
 <template>
-  <div class="h-[500px] w-full rounded-lg shadow">
+  <div
+    class="h-[500px] w-full overflow-hidden rounded-xl shadow-sm ring-1 ring-gray-100"
+  >
     <LMap :zoom="2" :center="[20, 0]" style="height: 100%; width: 100%">
       <LTileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

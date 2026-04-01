@@ -135,26 +135,26 @@ const chartOptions = {
 </script>
 
 <template>
-  <div class="space-y-4">
+  <div class="space-y-5">
     <FilterPanel />
 
-    <div v-if="error" class="rounded-lg bg-red-50 p-3 text-sm text-red-700">
+    <div v-if="error" class="rounded-xl bg-red-50 p-3 text-sm text-red-600">
       {{ error }}
     </div>
 
     <div v-if="loading" class="flex h-64 items-center justify-center">
-      <p class="text-gray-500">Loading analytics...</p>
+      <p class="text-sm text-gray-400">Loading analytics...</p>
     </div>
 
     <div
       v-else-if="!hasData"
-      class="flex h-64 items-center justify-center rounded-lg bg-white shadow"
+      class="flex h-64 items-center justify-center rounded-xl bg-white shadow-sm ring-1 ring-gray-100"
     >
-      <p class="text-gray-500">No events match your current filters.</p>
+      <p class="text-sm text-gray-400">No events match your current filters.</p>
     </div>
 
     <div v-else class="space-y-6">
-      <div class="rounded-lg bg-white p-6 shadow">
+      <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
         <h2 class="mb-4 text-lg font-semibold text-gray-900">
           Magnitude Distribution
         </h2>
@@ -166,7 +166,7 @@ const chartOptions = {
         </p>
       </div>
 
-      <div class="rounded-lg bg-white p-6 shadow">
+      <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
         <h2 class="mb-4 text-lg font-semibold text-gray-900">
           Events Over Time
         </h2>

@@ -8,7 +8,12 @@
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "lint": "eslint src --ext .ts,.vue"
+    "lint": "eslint src --ext .ts,.vue",
+    "format": "prettier --write 'src/**/*.{ts,vue,css,json}'",
+    "format:check": "prettier --check 'src/**/*.{ts,vue,css,json}'",
+    "e2e": "npx playwright test --project=vue --config=../../playwright.config.ts",
+    "storybook": "storybook dev -p 6007",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@terrawatch/shared": "*",
@@ -22,6 +27,8 @@
     "vue-router": "^4.4.0"
   },
   "devDependencies": {
+    "@storybook/addon-essentials": "^8.6.0",
+    "@storybook/vue3-vite": "^8.6.0",
     "@types/leaflet": "^1.9.0",
     "@vitejs/plugin-vue": "^5.2.0",
     "@vue/test-utils": "^2.4.0",
@@ -29,9 +36,11 @@
     "eslint-plugin-vue": "^9.33.0",
     "jsdom": "^25.0.0",
     "postcss": "^8.4.0",
+    "storybook": "^8.6.0",
     "tailwindcss": "^3.4.0",
     "typescript": "^5.6.0",
     "vite": "^6.0.0",
+    "vite-bundle-analyzer": "^1.3.6",
     "vitest": "^2.1.0",
     "vue-tsc": "^2.1.0"
   }

@@ -8,22 +8,25 @@ const links = [
 
 function Navbar() {
   return (
-    <nav className="bg-white shadow">
+    <nav
+      aria-label="Main navigation"
+      className="border-b border-gray-200 bg-white"
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          <span className="text-xl font-bold text-indigo-600">
+          <span className="text-xl font-bold tracking-tight text-indigo-600">
             NaturalEvents
           </span>
-          <div className="flex space-x-4">
+          <div className="flex space-x-1">
             {links.map((link) => (
               <NavLink
                 key={link.to}
                 to={link.to}
                 className={({ isActive }) =>
-                  `rounded-md px-3 py-2 text-sm font-medium ${
+                  `rounded-lg px-3 py-2 text-sm font-medium transition-all ${
                     isActive
-                      ? 'bg-indigo-100 text-indigo-700'
-                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                      ? 'bg-indigo-50 text-indigo-700'
+                      : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
                   }`
                 }
               >

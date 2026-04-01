@@ -2,3 +2,10 @@ node_modules
 dist
 .DS_Store
 *.local
+CLAUDE.md
+PROJECT_PLAN.md
+
+*storybook.log
+storybook-static
+test-results/
+playwright-report/

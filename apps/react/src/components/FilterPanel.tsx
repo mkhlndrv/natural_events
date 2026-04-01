@@ -24,93 +24,113 @@ function FilterPanel() {
   } = useFilterStore();
 
   return (
-    <div className="rounded-lg bg-white p-4 shadow">
+    <div className="rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-100">
       <div className="flex flex-wrap items-end gap-4">
-        <div>
-          <label className="mb-1 block text-xs font-medium text-gray-600">
+        <fieldset>
+          <legend className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-gray-400">
             Event Type
-          </label>
-          <div className="flex rounded-md border border-gray-300">
+          </legend>
+          <div className="flex rounded-lg border border-gray-200">
             {eventTypes.map((t) => (
               <button
                 key={t.value}
                 onClick={() => setEventType(t.value)}
-                className={`px-3 py-1.5 text-sm font-medium ${
+                className={`px-3 py-1.5 text-sm font-medium transition-all ${
                   eventType === t.value
-                    ? 'bg-indigo-600 text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-50'
-                } first:rounded-l-md last:rounded-r-md`}
+                    ? 'bg-indigo-600 text-white shadow-sm'
+                    : 'bg-white text-gray-600 hover:bg-gray-50'
+                } first:rounded-l-lg last:rounded-r-lg`}
               >
                 {t.label}
               </button>
             ))}
           </div>
-        </div>
+        </fieldset>
 
         <div>
-          <label className="mb-1 block text-xs font-medium text-gray-600">
+          <label
+            htmlFor="min-magnitude"
+            className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-400"
+          >
             Min Magnitude
           </label>
           <input
+            id="min-magnitude"
             type="number"
             value={minMagnitude}
             onChange={(e) => setMinMagnitude(Number(e.target.value))}
             min={0}
             max={10}
             step={0.5}
-            className="w-24 rounded-md border border-gray-300 px-2 py-1.5 text-sm"
+            className="w-24 rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-100"
           />
         </div>
 
         <div>
-          <label className="mb-1 block text-xs font-medium text-gray-600">
+          <label
+            htmlFor="max-magnitude"
+            className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-400"
+          >
             Max Magnitude
           </label>
           <input
+            id="max-magnitude"
             type="number"
             value={maxMagnitude}
             onChange={(e) => setMaxMagnitude(Number(e.target.value))}
             min={0}
             max={10}
             step={0.5}
-            className="w-24 rounded-md border border-gray-300 px-2 py-1.5 text-sm"
+            className="w-24 rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-100"
           />
         </div>
 
         <div>
-          <label className="mb-1 block text-xs font-medium text-gray-600">
+          <label
+            htmlFor="start-date"
+            className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-400"
+          >
             Start Date
           </label>
           <input
+            id="start-date"
             type="date"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
-            className="rounded-md border border-gray-300 px-2 py-1.5 text-sm"
+            className="rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-100"
           />
         </div>
 
         <div>
-          <label className="mb-1 block text-xs font-medium text-gray-600">
+          <label
+            htmlFor="end-date"
+            className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-400"
+          >
             End Date
           </label>
           <input
+            id="end-date"
             type="date"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
-            className="rounded-md border border-gray-300 px-2 py-1.5 text-sm"
+            className="rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-100"
           />
         </div>
 
         <div>
-          <label className="mb-1 block text-xs font-medium text-gray-600">
+          <label
+            htmlFor="eonet-status"
+            className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-400"
+          >
             EONET Status
           </label>
           <select
+            id="eonet-status"
             value={eonetStatus}
             onChange={(e) =>
               setEonetStatus(e.target.value as 'all' | 'open' | 'closed')
             }
-            className="rounded-md border border-gray-300 px-2 py-1.5 text-sm"
+            className="rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-100"
           >
             <option value="all">All</option>
             <option value="open">Open</option>
@@ -120,7 +140,7 @@ function FilterPanel() {
 
         <button
           onClick={resetFilters}
-          className="rounded-md border border-gray-300 px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          className="rounded-lg border border-gray-200 px-3 py-1.5 text-sm font-medium text-gray-500 transition-all hover:bg-gray-50 hover:text-gray-700"
         >
           Reset
         </button>

@@ -33,7 +33,7 @@ function EventMap({ earthquakes, eonetEvents }: EventMapProps) {
     <MapContainer
       center={center}
       zoom={2}
-      className="h-[500px] w-full rounded-lg shadow"
+      className="h-[500px] w-full overflow-hidden rounded-xl shadow-sm ring-1 ring-gray-100"
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'

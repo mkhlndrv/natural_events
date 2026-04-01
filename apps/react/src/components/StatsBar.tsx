@@ -24,10 +24,12 @@ function StatsBar({ earthquakes, eonetEvents }: StatsBarProps) {
       {stats.map((stat) => (
         <div
           key={stat.label}
-          className="rounded-lg bg-white p-4 text-center shadow"
+          className="rounded-xl bg-white p-4 text-center shadow-sm ring-1 ring-gray-100"
         >
-          <p className="text-sm text-gray-500">{stat.label}</p>
-          <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+          <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+            {stat.label}
+          </p>
+          <p className="mt-1 text-2xl font-bold text-gray-900">{stat.value}</p>
         </div>
       ))}
     </div>
