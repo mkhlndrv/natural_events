@@ -9,6 +9,9 @@
     "preview": "vite preview",
     "test": "vitest run",
     "lint": "eslint src --ext .ts,.vue",
+    "format": "prettier --write 'src/**/*.{ts,vue,css,json}'",
+    "format:check": "prettier --check 'src/**/*.{ts,vue,css,json}'",
+    "e2e": "npx playwright test --project=vue --config=../../playwright.config.ts",
     "storybook": "storybook dev -p 6007",
     "build-storybook": "storybook build"
   },
