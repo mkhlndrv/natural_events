@@ -1,14 +1,13 @@
 # Presentation Guide — Criteria Walkthrough
 
-This guide covers each grading criteria, explains where it's fulfilled in the codebase, how it works technically, and what to show/say during the presentation. Code snippets and file paths included so you can navigate quickly.
+This guide helps you present and explain each grading criteria. It's written in normal language so you can confidently talk about what you built even if you're newer to web development.
 
-**How to use this if you are newer to this kind of project**
+**Quick glossary**
 
-- **Monorepo** = one Git repository containing several packages (here: React app, Vue app, shared library). You run `npm install` once at the root; npm wires them together.
-- **Service** = a module whose job is only to talk to the HTTP API (build URLs, call Axios, return data). **Hook / composable** = React/Vue logic that calls the service and keeps `loading`, `error`, and `data` in component-friendly form.
-- **Store** = a small global place for “app-wide” state (your filters). Without it, every page would need props passed down through many components.
-- **Code blocks below are teaching copies:** inline `//` comments were added **only in this Markdown file** so you can read or present what each part does. The real source files in `apps/` are unchanged.
-- **Presenter script** under each criterion is a longer, speakable version you can follow almost word for word. **What to say** stays the short one-liner if you only have a few seconds.
+- **Monorepo** = One project folder containing multiple apps. You install everything once and the apps can share code.
+- **Service** = A helper file that talks to an online API — builds the URL, makes the request, gives back data.
+- **Hook (React) / Composable (Vue)** = Reusable logic that calls the service and tracks loading/error/data state.
+- **Store** = A shared "brain" for the app where you keep data that multiple pages need (like filter settings).
 
 ---
 
@@ -16,14 +15,19 @@ This guide covers each grading criteria, explains where it's fulfilled in the co
 
 > _I have 2 repos of the same app in 2 different front-end frameworks that are either React, Vue, Svelte, Solid or Angular._
 
-### Where it is
+### Presenter script
 
-- **React app:** `apps/react/` — React 19 + React Router + Zustand + Recharts + react-leaflet
-- **Vue app:** `apps/vue/` — Vue 3.5 + Vue Router + Pinia + vue-chartjs + @vue-leaflet
+> "For this criteria, I built the same app twice — once in **React** and once in **Vue**, which are two different front-end frameworks. They both live inside one project folder, which is called a **monorepo**. I set it up using **npm workspaces** — that basically means I install everything once at the top level, and both apps can share code from a shared package called `packages/shared`. That shared package has things like API URLs and TypeScript types, so if I change something there, both apps pick it up automatically. I don't have to update things in two places."
 
-### How it works
+### What to show
 
-Both apps live in a single **npm workspaces monorepo**. The root `package.json` (line 5-8) declares:
+- Open the project root in your editor — show the `apps/react/` and `apps/vue/` folders side by side.
+- Open root `package.json` and point to the `"workspaces"` field.
+- Open `packages/shared/index.ts` to show what's being shared.
+
+### Details
+
+Both apps are in a single folder. The root `package.json` declares:
 
 ```json
 "workspaces": [
@@ -32,29 +36,10 @@ Both apps live in a single **npm workspaces monorepo**. The root `package.json` 
 ]
 ```
 
-**What each part means (say this in your own words):**
+This tells npm to link everything together. One `npm install` at the root sets up React, Vue, and the shared library. Both apps import shared types and API constants using the name `@terrawatch/shared`.
 
-- **`"workspaces"`** — Tells npm this repo is a _workspace root_: child folders listed here are separate packages that share one lockfile and can depend on each other.
-- **`"apps/*"`** — Every app under `apps/` (React, Vue) is its own package with its own dependencies.
-- **`"packages/*"`** — Shared libraries (here, `packages/shared`) are normal packages too; the apps depend on them by name (e.g. `@terrawatch/shared`).
-
-**In plain English:** These lines are glob patterns. Each matching folder has its own `package.json`, but one `npm install` at the repo root links them. That is how both apps can import from `@terrawatch/shared` without publishing that package to npm.
-
-This means `npm install` at the root installs dependencies for all three packages (`apps/react`, `apps/vue`, `packages/shared`). Both apps import shared types and API constants from `packages/shared/` using the workspace name `@terrawatch/shared`.
-
-### What to show
-
-- Open the project root in your editor — show the `apps/react/` and `apps/vue/` folders side by side.
-- Open `package.json` at root and point to the `"workspaces"` field.
-- Open `packages/shared/index.ts` to show the shared exports.
-
-### What to say
-
-> "I built the same app in React and Vue. They're in a monorepo using npm workspaces, and they share TypeScript types and API constants from a shared package. This means if I change an API URL or a type definition, both apps pick it up."
-
-### Presenter script
-
-For this criterion I’m showing two implementations of the same product: one in **React** and one in **Vue**, which satisfies the requirement for two different front-end frameworks. They live in one repository as an **npm workspaces** monorepo — here’s the root `package.json` with `apps/*` and `packages/*`. That means I install dependencies once at the root, and both apps can import from **`packages/shared`** — shared **TypeScript types** and **API URL constants**. So I’m not duplicating types or endpoints; one change updates both apps.
+- **React app:** `apps/react/` — React 19 + React Router + Zustand + Recharts + react-leaflet
+- **Vue app:** `apps/vue/` — Vue 3.5 + Vue Router + Pinia + vue-chartjs + @vue-leaflet
 
 ---
 
@@ -62,29 +47,20 @@ For this criterion I’m showing two implementations of the same product: one in
 
 > _I am not using templates or pre-built apps._
 
-### How to prove it
+### Presenter script
 
-- The apps were scaffolded with `npm create vite@latest` (a bare Vite starter that gives you an empty `App.tsx`/`App.vue` and nothing else), then **everything** was built from scratch.
-- No leftover boilerplate exists — no default counter component, no template logos, no `App.css` with Vite template styles.
-- Every component is custom-built:
-  - **5 components:** FilterPanel, EventMap, StatsBar, Navbar, Layout
-  - **4 pages:** Dashboard, EventDetail, Analytics, About
-  - **2 services:** usgs.ts, eonet.ts
-  - **2 hooks/composables:** useEarthquakes, useEonetEvents
-  - **1 store:** filterStore
+> "I didn't use any pre-made dashboard template or starter kit. I started with **Vite**, which just gives you a completely empty project — no design, no components, nothing. Then I built everything from scratch myself: the pages, the routing, the navigation, the map, the charts, the filters, the API calls, the state management — all of it. If you look through the source code, every single file is something I created for this project. There's no leftover demo code or template logos."
 
 ### What to show
 
-- Quickly browse through `apps/react/src/` — point out that every file is project-specific.
-- If asked, show git log: "You can see from the git history that each component was added incrementally in separate commits."
+- Browse through `apps/react/src/` — point out that every file is your own work.
+- If asked, show git log: "You can see from the commits that each component was added step by step."
 
-### What to say
+### Details
 
-> "I started from a blank Vite + React/Vue template and built everything myself — all the routing, state management, API integration, map rendering, charts, and filtering logic."
-
-### Presenter script
-
-I did **not** start from a dashboard template or a pre-built app. I used only the minimal **Vite** starter — basically an empty shell — and then implemented everything myself: **pages, routing, components, API services, global state, the map, charts, and filters**. If you look through `src/`, there’s no default Vite counter, no template logos, no leftover demo CSS. The structure is only what this project needs: pages, components, hooks or composables, services, and tests.
+- Started from `npm create vite@latest` — gives you an empty `App.tsx`/`App.vue` and nothing else.
+- No leftover boilerplate — no default counter, no template logos, no sample CSS.
+- Custom-built: 5 components, 4 pages, 2 services, 2 hooks/composables, 1 store.
 
 ---
 
@@ -92,82 +68,71 @@ I did **not** start from a dashboard template or a pre-built app. I used only th
 
 > _My 2 apps fetch data from an api and do something with that data._
 
-### Where it is
+### Presenter script
 
-**API base URLs** — `packages/shared/constants.ts`:
+> "Both apps pull real data from two free public APIs. The first one is the **USGS API** — that's the U.S. Geological Survey — which gives us real-time earthquake data. The second is **NASA's EONET API**, which tracks natural events like wildfires, storms, and volcanoes. All the API URLs are stored in one shared file called `constants.ts` so nothing is scattered around — if an API URL ever changes, I only update it in one place. The way it works is: I have **service** files that make the actual API requests, and then **hooks** in React or **composables** in Vue that sit in the middle — they read the current filter settings, call the service, and keep track of whether data is loading, if there's an error, or if the data is ready. When a user changes a filter, the hook automatically re-fetches from the API. That data drives everything in the app: the map markers, the stats bar, the analytics charts, and the event detail pages."
 
-**Why this file matters:** If an API changes domain or path, you edit _one_ place and both React and Vue stay in sync. Graders also like that you did not scatter magic strings across components.
+### What to show
+
+1. Open `packages/shared/constants.ts` — show the centralized URLs.
+2. Open `apps/react/src/services/usgs.ts` — show the `fetchEarthquakes()` call.
+3. Open `apps/react/src/hooks/useEarthquakes.ts` — show how it auto-re-fetches when filters change.
+4. Open the live app dashboard — change a filter and watch the data refresh.
+
+### Details
+
+**API URLs** — all in one place at `packages/shared/constants.ts`:
 
 ```ts
-// USGS = U.S. Geological Survey earthquake API (query + feeds).
+// USGS = U.S. Geological Survey earthquake API
 export const USGS_QUERY_URL =
   'https://earthquake.usgs.gov/fdsnws/event/1/query';
 export const USGS_FEED_URL =
   'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary';
-// EONET = NASA “natural events” API (fires, storms, volcanoes, etc.).
+// EONET = NASA "natural events" API (fires, storms, volcanoes, etc.)
 export const EONET_EVENTS_URL = 'https://eonet.gsfc.nasa.gov/api/v3/events';
 export const EONET_CATEGORIES_URL =
   'https://eonet.gsfc.nasa.gov/api/v3/categories';
 ```
 
-All URLs are centralized here. Never hardcoded in components or services.
-
-**Service layer** (identical logic in both apps):
-
-- `apps/react/src/services/usgs.ts` — `fetchEarthquakes(params)` and `fetchEarthquakeById(id)`
-- `apps/react/src/services/eonet.ts` — `fetchEonetEvents(params)` and `fetchEonetEventById(id)`
-
-Here's how `fetchEarthquakes` works (React version, Vue is identical):
-
-**Big picture:** This function is a thin “HTTP wrapper.” It does not know about React or maps — it only knows how to ask USGS for earthquake data and return the parsed body.
+**Service files** — the code that actually calls the APIs:
 
 ```ts
-// `async` = function returns a Promise; you can `await` it from hooks/composables.
+// This function talks to the USGS earthquake API
 export async function fetchEarthquakes(
   params: UsgsParams
 ): Promise<EarthquakeFeatureCollection> {
-  // GET request: Axios builds the query string from `params` (dates, magnitudes, etc.).
+  // Send a GET request with the user's filter settings
   const response = await axios.get(USGS_QUERY_URL, {
-    // Spread `...params` merges your filters with `format: 'geojson'` (required by USGS).
     params: { format: 'geojson', ...params },
   });
-  // Axios already parsed JSON → `response.data` is the GeoJSON object.
+  // Axios parses the JSON for us automatically
   return response.data;
 }
 ```
 
-It sends an HTTP GET to the USGS API with `format=geojson` plus any filter params (`starttime`, `endtime`, `minmagnitude`, `maxmagnitude`). The USGS API returns a **GeoJSON FeatureCollection** (a standard format: a list of “features,” each with geometry + properties like magnitude).
-
-**Data-fetching hooks/composables** — these sit between services and components:
-
-- React: `apps/react/src/hooks/useEarthquakes.ts`
-- Vue: `apps/vue/src/composables/useEarthquakes.ts`
+**Hooks/Composables** — sit between services and components:
 
 React version:
 
-**Big picture:** A **custom hook** is a function that uses other hooks (`useState`, `useEffect`, `useFilterStore`). Components call `useEarthquakes()` and get `{ data, loading, error }` without duplicating fetch logic.
-
 ```ts
 export function useEarthquakes() {
-  // Read current filter values from the global Zustand store (same source as FilterPanel).
+  // Read what the user has set in the filters
   const { minMagnitude, maxMagnitude, startDate, endDate } = useFilterStore();
-  // Local state for this hook only: list of earthquake features, loading flag, error message.
   const [data, setData] = useState<EarthquakeFeature[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // `useEffect` runs after render. The second argument is the "dependency array."
+  // This runs automatically whenever any filter value changes
   useEffect(() => {
     setLoading(true);
     setError(null);
     fetchEarthquakes({
-      // USGS query param names are lowercase with no camelCase.
       starttime: startDate,
       endtime: endDate,
       minmagnitude: minMagnitude,
       maxmagnitude: maxMagnitude,
     })
-      // GeoJSON FeatureCollection has `.features` — the array you map over on the map.
       .then((response) => setData(response.features))
       .catch((err) => {
         setError(err.message);
@@ -175,57 +140,20 @@ export function useEarthquakes() {
       })
       .finally(() => setLoading(false));
   }, [minMagnitude, maxMagnitude, startDate, endDate]);
-  // ☝️ Whenever ANY of these change, React re-runs this effect → new API call.
+  // ☝️ This list tells React: "re-run this whenever any of these change"
 
-  // Parent components destructure this to render the map, stats, charts.
   return { data, loading, error };
 }
 ```
 
-It reads filter values from the Zustand store, and the `useEffect` dependency array `[minMagnitude, maxMagnitude, startDate, endDate]` means it **automatically re-fetches** whenever any filter changes.
+Vue uses `watch` instead of `useEffect` — same idea, different syntax.
 
-Vue uses **`watch`** instead of `useEffect`, with **`immediate: true`** so the first run happens on mount (like React’s effect on first paint). Same idea: when any filter ref changes, run the fetch again.
+**What the data is used for:**
 
-```ts
-watch(
-  // Watch several refs at once (Pinia/composable refs).
-  [minMagnitude, maxMagnitude, startDate, endDate],
-  () => {
-    // Same as inside useEffect: set loading, call fetchEarthquakes, update data/error.
-  },
-  { immediate: true } // Run once immediately, not only after a later change.
-);
-```
-
-**Shared TypeScript types** — `packages/shared/types/earthquake.ts` and `eonet.ts`:
-
-**Why types matter:** TypeScript describes the _shape_ of API responses. If you typo `properties.mag`, the compiler warns you before runtime. Sharing types means React and Vue cannot accidentally drift to two different “meanings” of an earthquake.
-
-- **`EarthquakeFeature`** — One quake from USGS GeoJSON: `properties` holds magnitude (`mag`), human place name, Unix time, “felt” count, tsunami flag, etc.; `geometry` is usually a `Point` where coordinates are `[longitude, latitude, depth]` (depth often in km — be ready to say “depth comes from the API”).
-- **`EonetEvent`** — One NASA event: `id`, `title`, list of `categories`, `sources` (URLs), `geometry` (can be points or polygons), and `closed` (still active or not).
-- Both apps import these types, so the data shape is consistent everywhere.
-
-### What the data is used for
-
-1. **Dashboard map** — earthquake markers sized by magnitude, colored by depth; EONET markers colored by category
-2. **Stats bar** — earthquake count, natural event count, strongest quake magnitude
-3. **Analytics charts** — magnitude distribution bar chart, events-over-time line chart
-4. **Event detail page** — full event info (magnitude, depth, location, felt reports, tsunami status, sources)
-
-### What to show
-
-1. Open `packages/shared/constants.ts` — show the centralized URLs
-2. Open `apps/react/src/services/usgs.ts` — show the `fetchEarthquakes()` Axios call
-3. Open `apps/react/src/hooks/useEarthquakes.ts` — show the `useEffect` with filter dependencies
-4. Open the live app dashboard — show data on the map and change a filter to trigger a re-fetch
-
-### What to say
-
-> "I use two free APIs — USGS for earthquake data and NASA EONET for natural events like wildfires and storms. The service layer makes Axios calls with filter parameters. The hooks/composables manage loading and error state, and automatically re-fetch whenever the user changes a filter. All API URLs are centralized in the shared package."
-
-### Presenter script
-
-Both apps **fetch real data from public APIs** and **use it across the UI**. Base URLs live in **`packages/shared/constants.ts`** so nothing is hardcoded in random components. The **service** modules call **Axios** with query parameters for dates and magnitude. **Hooks** in React and **composables** in Vue sit in the middle: they read the current **filters** from the store, call the service, and expose **`data`, `loading`, and `error`**. When a filter changes, the effect or watcher runs again and **re-fetches**. That data drives the **map markers**, the **stats bar**, the **analytics charts**, and the **event detail** page — so the APIs aren’t decorative; they’re what the whole app is built on.
+1. **Dashboard map** — markers sized by magnitude, colored by depth
+2. **Stats bar** — earthquake count, event count, strongest quake
+3. **Analytics charts** — magnitude distribution, events over time
+4. **Event detail page** — full event info
 
 ---
 
@@ -233,47 +161,9 @@ Both apps **fetch real data from public APIs** and **use it across the UI**. Bas
 
 > _My 2 apps have user interaction (click to navigate, click to expand)._
 
-### Where it is — Interaction inventory
+### Presenter script
 
-**1. Navigation (Navbar)**
-
-- File: `apps/react/src/components/Navbar.tsx` / `apps/vue/src/components/AppNavbar.vue`
-- 3 links: Dashboard (`/`), Analytics (`/analytics`), About (`/about`)
-- React uses `NavLink` with `isActive` for styling; Vue uses `RouterLink` with `exact-active-class`
-- Active link gets indigo background color
-
-**2. Map marker click → popup (EventMap)**
-
-- File: `apps/react/src/components/EventMap.tsx` (lines 43-103)
-- Each earthquake is rendered as a `<CircleMarker>`. Clicking it opens a `<Popup>` showing:
-  - Magnitude, location, depth, timestamp
-  - A "View details" link to `/event/{id}`
-- Same for EONET events (title, category, status, "View details" link)
-
-**3. Popup "View details" → navigation to Event Detail**
-
-- The `<Link to={/event/${eq.id}}>` in the popup navigates to the detail page
-- File: `apps/react/src/pages/EventDetail.tsx`
-- The page reads the `:id` from the URL, checks if it starts with `EONET_` to decide which API to call, then fetches and displays the full event
-
-**4. Event Detail → back to Dashboard**
-
-- `<Link to="/">← Back to Dashboard</Link>` at the top of every detail page
-
-**5. Filter panel interactions (FilterPanel)**
-
-- File: `apps/react/src/components/FilterPanel.tsx` (152 lines)
-- **Event type toggle buttons** (line 34-46): Three buttons — clicking one calls `setEventType()` on the store. Active button gets `bg-indigo-600 text-white`.
-- **Magnitude inputs** (line 57-66): Number inputs with min=0, max=10, step=0.5. `onChange` calls `setMinMagnitude(Number(e.target.value))`.
-- **Date pickers** (line 95-117): HTML date inputs. `onChange` calls `setStartDate(e.target.value)`.
-- **EONET status dropdown** (line 127-138): `<select>` with options All/Open/Closed.
-- **Reset button** (line 141-146): Calls `resetFilters()` which resets all values to defaults (eventType: 'all', magnitude: 2-10, dates: last 30 days, eonetStatus: 'open').
-
-**6. Analytics page — filters affect charts**
-
-- File: `apps/react/src/pages/Analytics.tsx`
-- Same FilterPanel appears here, so changing filters updates the charts in real time
-- The charts read from the same hooks that read from the store
+> "There's user interaction on every page. You can **click the navigation links** to go between Dashboard, Analytics, and About — the active page is highlighted. On the map, **clicking a marker opens a popup** with a summary of that event — that's the 'expand' part. Inside the popup there's a **'View details' link** that takes you to a full detail page. From there you can click **'Back to Dashboard'** to go back. The **filter panel** is fully interactive: you can toggle between event types, change magnitude ranges, pick date ranges, filter by status, and hit Reset to go back to defaults. Because all filters are stored in a global store, changing them updates the map, stats bar, and charts all at the same time. I can demo all of this live."
 
 ### What to show (live demo)
 
@@ -284,15 +174,21 @@ Both apps **fetch real data from public APIs** and **use it across the UI**. Bas
 5. Change the event type toggle to "Earthquakes" — watch EONET markers disappear
 6. Change min magnitude to 5 — watch small markers disappear
 7. Change a date — watch data reload
-8. Click "Reset" — everything reverts to defaults
+8. Click "Reset" — everything goes back to normal
 
-### What to say
+### Details
 
-> "There's user interaction on every page. The main ones: click markers on the map to see popups, click through to detail pages, use the filter panel to adjust what data is shown. Filters are in a global store so they affect the map, stats bar, and analytics charts simultaneously."
-
-### Presenter script
-
-Interaction isn’t only buttons — it’s **navigation** and **expandable UI**. You can **click navbar links** to move between Dashboard, Analytics, and About; the active route is visible in the styling. On the map, **clicking a marker opens a popup** — that’s the “expand” part — with a short summary and **View details**, which uses the router to go to **`/event/:id`**. From the detail page you can go **back** to the dashboard. The **filter panel** is all interactive: toggles for event type, magnitude and date inputs, EONET status, and **Reset**. Because filters live in a **global store**, the same controls affect the **map**, **stats**, and **charts** together — I can demo that live.
+| What                  | Where                                 | What happens                                  |
+| --------------------- | ------------------------------------- | --------------------------------------------- |
+| Navbar links          | `Navbar.tsx` / `AppNavbar.vue`        | Click to navigate between pages               |
+| Map marker click      | `EventMap.tsx` / `EventMap.vue`       | Opens popup with event summary                |
+| "View details" link   | Inside map popups                     | Goes to full detail page                      |
+| "Back to Dashboard"   | `EventDetail.tsx` / `EventDetail.vue` | Returns to main page                          |
+| Event type toggles    | `FilterPanel.tsx` / `FilterPanel.vue` | Filters by All / Earthquakes / Natural Events |
+| Magnitude inputs      | `FilterPanel.tsx` / `FilterPanel.vue` | Sets min/max magnitude                        |
+| Date pickers          | `FilterPanel.tsx` / `FilterPanel.vue` | Narrows time range                            |
+| EONET status dropdown | `FilterPanel.tsx` / `FilterPanel.vue` | Filters by All / Open / Closed                |
+| Reset button          | `FilterPanel.tsx` / `FilterPanel.vue` | Resets everything to defaults                 |
 
 ---
 
@@ -300,70 +196,48 @@ Interaction isn’t only buttons — it’s **navigation** and **expandable UI**
 
 > _My 2 apps have scripts in their package.json files to: lint (eslint), format (prettier), component test (vitest) and e2e test (playwright) the codebase._
 
-### Where it is
+### Presenter script
 
-**React (`apps/react/package.json`):**
-| Script | Command | Tool |
-|--------|---------|------|
-| `lint` | `eslint src --ext .ts,.tsx` | ESLint |
-| `format` | `prettier --write 'src/**/*.{ts,tsx,css,json}'` | Prettier (auto-fix) |
-| `format:check` | `prettier --check 'src/**/*.{ts,tsx,css,json}'` | Prettier (check only) |
-| `test` | `vitest run` | Vitest |
-| `e2e` | `npx playwright test --project=react --config=../../playwright.config.ts` | Playwright |
-| `storybook` | `storybook dev -p 6006` | Storybook |
+> "Both apps have all the required scripts set up in their `package.json` files. There's `lint` which uses **ESLint** to check for code quality issues, `format` which uses **Prettier** to keep the code style consistent, `test` which runs component tests with **Vitest**, and `e2e` which runs end-to-end tests with **Playwright** in a real browser. There's also a `format:check` mode that just checks formatting without changing anything — that's what CI uses. On top of that, I set up convenience scripts at the root level so I can run lint, format, or tests for **both apps at once** with a single command. The Playwright config has two projects — React on port 3000, Vue on 3001 — and it automatically starts both dev servers before the tests run."
 
-**Vue (`apps/vue/package.json`):**
-| Script | Command | Tool |
-|--------|---------|------|
-| `lint` | `eslint src --ext .ts,.vue` | ESLint |
-| `format` | `prettier --write 'src/**/*.{ts,vue,css,json}'` | Prettier (auto-fix) |
-| `format:check` | `prettier --check 'src/**/*.{ts,vue,css,json}'` | Prettier (check only) |
-| `test` | `vitest run` | Vitest |
-| `e2e` | `npx playwright test --project=vue --config=../../playwright.config.ts` | Playwright |
-| `storybook` | `storybook dev -p 6007` | Storybook |
+### What to show
 
-**Root scripts** (`package.json`) — convenience commands that run both apps:
+- Open `apps/react/package.json` and scroll to the `scripts` section.
+- Run `npm run lint` from root — show it passes.
+- Run `npm run test` — show Vitest output for both apps.
+
+### Details
+
+**Per-app scripts** (both React and Vue have these):
+| Script | What it does | Tool |
+|--------|-------------|------|
+| `lint` | Checks code for errors/issues | ESLint |
+| `format` | Auto-fixes code formatting | Prettier |
+| `format:check` | Checks formatting without changing anything | Prettier |
+| `test` | Runs component tests | Vitest |
+| `e2e` | Runs browser-based tests | Playwright |
+| `storybook` | Opens the component gallery | Storybook |
+
+**Root scripts** (run both apps at once):
 | Script | What it does |
 |--------|-------------|
-| `npm run lint` | `eslint 'apps/*/src/**/*.{ts,tsx,vue}'` — lints both apps at once |
-| `npm run format` | `prettier --write 'apps/*/src/**/*.{ts,tsx,vue,css,json}'` |
-| `npm run format:check` | `prettier --check 'apps/*/src/**/*.{ts,tsx,vue,css,json}'` |
-| `npm run test` | `npm run test:react && npm run test:vue` — runs Vitest in both |
-| `npm run e2e` | `npx playwright test` — runs all Playwright projects |
+| `npm run lint` | Lints both apps |
+| `npm run format` | Formats both apps |
+| `npm run test` | Runs component tests for both apps |
+| `npm run e2e` | Runs E2E tests for both apps |
 
-### How the E2E script works
-
-The Playwright config (`playwright.config.ts`) defines two **projects**. Think of a project as “one browser profile + one base URL + one folder of tests.” Same Playwright run can test both apps without you manually switching terminals.
+**Playwright config** (`playwright.config.ts`):
 
 ```ts
 projects: [
-  // React E2E tests live under e2e/react; open pages relative to the React dev server.
   { name: 'react', testDir: './e2e/react', use: { baseURL: 'http://localhost:3000' } },
-  // Vue tests mirror that on port 3001.
   { name: 'vue', testDir: './e2e/vue', use: { baseURL: 'http://localhost:3001' } },
 ],
-// `webServer` = "before tests, start these commands and wait until URLs respond."
 webServer: [
   { command: 'npm run dev:react', url: 'http://localhost:3000' },
   { command: 'npm run dev:vue', url: 'http://localhost:3001' },
 ],
 ```
-
-So `npm run e2e` automatically starts both dev servers, runs tests against them, then shuts them down.
-
-### What to show
-
-- Open `apps/react/package.json` and scroll to the `scripts` section.
-- Run `npm run lint` from root — show it exits with 0.
-- Run `npm run test` — show Vitest output for both apps.
-
-### What to say
-
-> "Both apps have all required scripts: lint with ESLint, format with Prettier (plus a check-only version for CI), component tests with Vitest, and E2E tests with Playwright. The root package.json has convenience scripts to run everything at once."
-
-### Presenter script
-
-Each app’s **`package.json`** defines **lint** with ESLint, **format** and **format:check** with Prettier, **test** with Vitest for component tests, and **e2e** with Playwright pointing at the shared config. There are also **Storybook** scripts per app. At the **monorepo root**, I added shortcuts so one command can **lint**, **format**, **format:check**, **test**, or **e2e** across **both** apps. Playwright’s config uses two **projects** — React on port 3000, Vue on 3001 — and **`webServer`** starts the dev servers before the tests run, so the e2e script is self-contained.
 
 ---
 
@@ -371,35 +245,38 @@ Each app’s **`package.json`** defines **lint** with ESLint, **format** and **f
 
 > _My 2 apps are properly linted, formatted and pass all tests._
 
-### Where it is
+### Presenter script
 
-**ESLint config** — `.eslintrc.cjs` at root (shared by both apps):
+> "The codebase passes all lint checks and formatting rules. I set up **ESLint** and **Prettier** at the root level so both apps share the same rules — everything is consistent. I also set up a tool called **Husky** that runs automatically before every git commit. It checks your code with ESLint and formats it with Prettier before the commit goes through — so it's literally impossible to commit code that doesn't pass. ESLint catches things like unused variables, and Prettier makes sure all the spacing and formatting is consistent. I can run `npm run lint` and `npm run format:check` from the root and both apps pass clean. Vitest component tests also pass for both apps."
 
-**Big picture:** ESLint scans code for likely bugs and style issues. Here it understands TypeScript and cooperates with Prettier so “formatting” and “lint” do not fight each other.
+### What to show
+
+1. Run `npm run lint` — should exit with 0 (no errors).
+2. Run `npm run format:check` — should exit with 0.
+3. Run `npm run test` — should see **16** tests total (8 per app).
+
+### Details
+
+**ESLint config** — `.eslintrc.cjs`:
 
 ```js
 module.exports = {
-  root: true, // Use this config as the root — don’t keep searching parent folders.
-  parser: '@typescript-eslint/parser', // Parse TypeScript syntax, not plain JS only.
+  root: true,
+  parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint', 'prettier'],
   extends: [
-    'eslint:recommended', // Baseline JS rules.
-    'plugin:@typescript-eslint/recommended', // Common TS rules (any types, etc.).
-    'plugin:prettier/recommended', // Run Prettier as ESLint rules (one toolchain).
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
   ],
   rules: {
-    'prettier/prettier': 'warn', // If formatting drifts, ESLint warns.
-    // Catch unused variables; allow `_name` for intentionally unused parameters.
+    'prettier/prettier': 'warn',
     '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
   },
 };
 ```
 
-This means: TypeScript-aware linting, Prettier formatting enforced as lint rules, unused variables flagged (except those starting with `_`).
-
 **Prettier config** — `.prettierrc`:
-
-**What this does:** Prettier is an _opinionated formatter_ — it rewrites spacing, quotes, and commas so the whole team (and CI) sees the same shape of code.
 
 ```json
 {
@@ -410,32 +287,7 @@ This means: TypeScript-aware linting, Prettier formatting enforced as lint rules
 }
 ```
 
-- **`semi`** — end statements with semicolons (consistent with many TS codebases).
-- **`singleQuote`** — use `'` instead of `"` for strings where possible.
-- **`tabWidth`** — indent with 2 spaces.
-- **`trailingComma`** — allow trailing commas in objects/arrays where ES5 allows (helps cleaner git diffs).
-
-**Git hooks** — `.husky/pre-commit` runs `npx lint-staged`, which (from root `package.json` `lint-staged` config):
-
-- `.ts/.tsx` files: `eslint --fix` then `prettier --write`
-- `.vue` files: `eslint --fix` then `prettier --write`
-- `.json/.css/.md` files: `prettier --write`
-
-This means code is **automatically linted and formatted before every commit**. It's impossible to commit unlinted code.
-
-### How to demonstrate
-
-1. Run `npm run lint` — exits with 0 (no errors)
-2. Run `npm run format:check` — exits with 0 (all files properly formatted)
-3. Run `npm run test` — runs **both** apps; you should see **16** component tests total (8 per app: 6 FilterPanel + 2 Navbar)
-
-### What to say
-
-> "The codebase passes all lint checks and formatting rules. I have Husky set up with a pre-commit hook that runs lint-staged — so every time I commit, ESLint and Prettier run automatically on the staged files. You literally can't commit code that doesn't pass."
-
-### Presenter script
-
-Quality isn’t only manual — it’s enforced. **ESLint** and **Prettier** are configured at the **repo root** and shared by both apps, so rules are consistent. I can run **`npm run lint`** and **`npm run format:check`** from the root — both should **exit successfully** on a clean tree. **Vitest** component tests pass for both apps. On top of that, **Husky** runs **lint-staged** on **pre-commit**, so staged files get **ESLint --fix** and **Prettier --write** before the commit finishes. That’s how I keep the tree linted, formatted, and green.
+**Git hooks** — `.husky/pre-commit` runs `npx lint-staged`, which auto-lints and formats staged files before every commit.
 
 ---
 
@@ -443,32 +295,22 @@ Quality isn’t only manual — it’s enforced. **ESLint** and **Prettier** are
 
 > _My 2 apps are connected to vercel (or similar) for automated deployments._
 
-### Where it is
+### Presenter script
 
-- **React live URL:** https://natural-events-react.vercel.app
-- **Vue live URL:** https://natural-events-vue.vercel.app
-
-### How it works
-
-- Both are deployed as **separate Vercel projects** from the same GitHub monorepo.
-- Each Vercel project is configured to build from its respective directory:
-  - React project root: `apps/react`
-  - Vue project root: `apps/vue`
-- Vercel auto-detects Vite, runs `npm run build`, and serves the `dist/` folder.
-- **Automatic deployment:** every push to `main` triggers a new production deployment. Every PR gets a preview deployment with a unique URL.
+> "Both apps are deployed on **Vercel** as separate projects from the same GitHub repo. Each project is pointed at its own app folder — React at `apps/react`, Vue at `apps/vue`. When code gets pushed to the main branch, Vercel automatically builds and deploys both apps. Pull requests also get **preview URLs** so you can test changes before merging. Here are the live links — React and Vue — same features, different framework."
 
 ### What to show
 
 - Open both live URLs in browser tabs — show them working.
-- Optionally open the Vercel dashboard to show the deployment history and settings.
+- Optionally show the Vercel dashboard for deployment history.
 
-### What to say
+### Details
 
-> "Both apps are connected to Vercel. When code gets pushed to main, Vercel automatically builds and deploys both apps. Each PR also gets a preview deployment so I can test before merging."
-
-### Presenter script
-
-Both apps are deployed on **Vercel** as **separate projects** from the **same GitHub repo**. Each project’s **root directory** is set to **`apps/react`** or **`apps/vue`**, so Vercel runs **`npm run build`** in the right place and serves the **Vite** output. When **`main`** updates, **production** redeploys automatically. Pull requests get **preview URLs** so reviewers can open the built app without merging. Here are the live links — React and Vue — same features, different framework.
+- **React live URL:** https://natural-events-react.vercel.app
+- **Vue live URL:** https://natural-events-vue.vercel.app
+- Both are separate Vercel projects connected to the same GitHub monorepo.
+- Vercel auto-detects Vite, runs `npm run build`, and serves the output.
+- Every push to `main` triggers a new deployment. Every PR gets a preview URL.
 
 ---
 
@@ -476,34 +318,34 @@ Both apps are deployed on **Vercel** as **separate projects** from the **same Gi
 
 > _My 2 apps have a github workflow that, on each pull request to main, will run lint check, format check, component test and e2e test. If those pass, it will deploy it to vercel (or similar)._
 
-### Where it is
+### Presenter script
 
-- **File:** `.github/workflows/ci.yml`
-- **Triggers on:** `pull_request` to `main` branch
+> "I set up a CI pipeline using **GitHub Actions**. It's a YAML file called `ci.yml` that runs automatically whenever someone opens a pull request to the main branch. It has **two jobs that run at the same time**: the first one does lint checking, format checking, and runs all the component tests. The second one installs a real Chromium browser and runs the end-to-end tests. Both jobs have to pass before the PR can be merged — I set up **branch protection** on main so you literally can't merge if the checks fail. The CI doesn't deploy directly — instead, **Vercel** watches the repo and deploys automatically when changes land on main after a successful merge."
 
-### How it works — the full pipeline
+### What to show
 
-The workflow has **2 jobs that run in parallel:**
+1. Open `.github/workflows/ci.yml` in your editor — walk through both jobs.
+2. Open a recent PR on GitHub — point to the green checkmarks from CI.
+3. Show the branch protection settings if possible.
 
-**Job 1: "Lint, Format and Test"**
+### Details
 
-Below is a **readable summary** of the job (not a copy-paste of the real YAML). When you present, say that each bullet is a CI _step_: a command GitHub runs on a clean Linux machine.
+**Job 1: "Lint, Format and Test":**
 
 ```yaml
-# Logical name shown in the GitHub “Checks” UI.
 ci:
   name: Lint, Format and Test
-  runs-on: ubuntu-latest # Fresh virtual machine every run — reproducible.
+  runs-on: ubuntu-latest
   steps:
-    - Checkout code # Clone your PR branch.
-    - Setup Node.js 20 with npm cache # Install Node + cache node_modules for speed.
-    - npm ci # Clean install from package-lock (stricter than npm install).
-    - npm run lint # ESLint must pass; CI does NOT auto-fix (unlike your laptop).
-    - npm run format:check # Prettier in “check only” mode — wrong formatting fails the build.
-    - npm run test # Vitest unit/component tests for both apps.
+    - Checkout code
+    - Setup Node.js 20
+    - npm ci
+    - npm run lint
+    - npm run format:check
+    - npm run test
 ```
 
-**Job 2: "E2E Tests"**
+**Job 2: "E2E Tests"** (runs in parallel):
 
 ```yaml
 e2e:
@@ -513,41 +355,12 @@ e2e:
     - Checkout code
     - Setup Node.js 20
     - npm ci
-    # Playwright needs a real browser binary on the runner; Chromium is installed here.
     - npx playwright install --with-deps chromium
-    # Starts dev servers (per playwright.config), runs e2e/react and e2e/vue specs.
     - npm run e2e
-    # If something fails, the HTML report is saved for download from the Actions tab.
-    - Upload playwright-report as artifact (14-day retention)
+    - Upload test report as artifact
 ```
 
-**Branch protection on `main`:**
-
-- Requires a PR (no direct pushes)
-- Requires the "Lint, Format and Test" status check to pass
-- No bypassing allowed
-
-**How deployment happens:**
-The CI doesn't deploy directly. Instead, Vercel is connected to the repo and auto-deploys when the PR merges to `main`. So the flow is:
-
-1. Open PR from `develop` → `main`
-2. CI runs lint, format check, tests, E2E → all must pass
-3. PR can merge only if CI passes (branch protection)
-4. On merge, Vercel auto-deploys
-
-### What to show
-
-1. Open `.github/workflows/ci.yml` in your editor — walk through both jobs.
-2. Open a recent PR on GitHub — point to the green checkmarks from CI.
-3. Show the branch protection settings if possible (Settings → Branches → `main`).
-
-### What to say
-
-> "My CI has two parallel jobs. The first runs lint, format check, and component tests. The second installs Playwright and runs E2E tests in a real Chromium browser. Both must pass before I can merge a PR. Branch protection on main enforces this — you literally can't merge if CI fails. After merge, Vercel deploys automatically."
-
-### Presenter script
-
-CI lives in **`.github/workflows/ci.yml`**. It runs on **pull requests to `main`**. There are **two jobs in parallel**: first, **checkout**, **Node**, **`npm ci`**, then **`npm run lint`** — no auto-fix in CI — **`npm run format:check`**, and **`npm run test`** for Vitest. The second job installs **Playwright Chromium** and runs **`npm run e2e`**. If anything fails, the PR shouldn’t merge — **`main`** is **branch-protected** and requires the **“Lint, Format and Test”** check. **Deploy** isn’t done by this YAML; **Vercel** watches the repo and deploys when changes land on **`main`** after a good merge.
+**The full flow:** Open PR → CI runs → must pass → merge → Vercel auto-deploys.
 
 ---
 
@@ -555,118 +368,65 @@ CI lives in **`.github/workflows/ci.yml`**. It runs on **pull requests to `main`
 
 > _My 2 apps have component tests that test my basic components in isolation._
 
-### Where it is
+### Presenter script
+
+> "I wrote component tests using **Vitest** that test individual components by themselves — no real browser, no real API, just the component in isolation. The main test target is the **FilterPanel** because it has the most user interaction. I test six things: that all the controls show up on screen, that clicking the event type buttons updates the global store correctly, that changing magnitude inputs works, that changing date inputs works, that the dropdown works, and that the Reset button puts everything back to defaults. I also test the **Navbar** to make sure all the links and the brand name show up. Both apps have the exact same tests — 8 tests each, 16 total — just using their framework's testing tools. React uses Testing Library, Vue uses Vue Test Utils with a fresh Pinia store per test."
+
+### What to show
+
+1. Open a test file — walk through the structure.
+2. Run `npm run test` in the terminal — show all 16 tests passing.
+
+### Details
 
 **React tests:** `apps/react/src/__tests__/`
 **Vue tests:** `apps/vue/src/__tests__/`
 
-### FilterPanel tests — the main test target
-
-Both apps have **6 identical test cases** for FilterPanel. Here's the React version (`FilterPanel.test.tsx`):
-
-**Test 1: Renders all filter controls**
-
-**Idea:** Prove the panel actually mounted the UI you expect — no need for a real API or map; Testing Library renders only this component into a fake DOM (`jsdom`).
+**Test 1: All controls show up**
 
 ```ts
 it('renders all filter controls', () => {
-  // Mount FilterPanel with default store state.
   render(<FilterPanel />);
-  // getByRole finds accessible elements: buttons, links, etc. `name` matches visible label.
   expect(screen.getByRole('button', { name: 'All' })).toBeInTheDocument();
   expect(screen.getByRole('button', { name: 'Earthquakes' })).toBeInTheDocument();
   expect(screen.getByRole('button', { name: 'Natural Events' })).toBeInTheDocument();
-  // Labels are plain text nodes — good smoke test that inputs are labeled.
   expect(screen.getByText('Min Magnitude')).toBeInTheDocument();
   expect(screen.getByText('Max Magnitude')).toBeInTheDocument();
-  expect(screen.getByText('Start Date')).toBeInTheDocument();
-  expect(screen.getByText('End Date')).toBeInTheDocument();
-  expect(screen.getByText('EONET Status')).toBeInTheDocument();
   expect(screen.getByRole('button', { name: 'Reset' })).toBeInTheDocument();
 });
 ```
 
-This verifies the component renders all its UI elements correctly in isolation.
-
-**Test 2: Event type buttons update the store**
-
-**Idea:** UI events should change **global** state. `useFilterStore.getState()` reads the live Zustand store outside React — perfect for assertions after `fireEvent`.
+**Test 2: Clicking buttons updates the store**
 
 ```ts
 it('updates store when clicking event type buttons', () => {
   render(<FilterPanel />);
-  // Simulate a user click; the component should call setEventType('earthquakes').
   fireEvent.click(screen.getByRole('button', { name: 'Earthquakes' }));
   expect(useFilterStore.getState().eventType).toBe('earthquakes');
-  fireEvent.click(screen.getByRole('button', { name: 'Natural Events' }));
-  expect(useFilterStore.getState().eventType).toBe('natural');
 });
 ```
 
-This verifies that clicking a button actually updates the global Zustand store.
+**Tests 3-5:** Same pattern for magnitude inputs, date inputs, and EONET dropdown.
 
-**Test 3-5:** Same pattern for magnitude inputs, date inputs, and EONET status dropdown — `fireEvent.change()` the input, then check the store value.
-
-**Test 6: Reset restores all defaults**
-
-**Idea:** Regression test for your “escape hatch” — users should always be able to return to a known-good filter preset.
+**Test 6: Reset puts everything back to defaults**
 
 ```ts
 it('resets all filters to defaults', () => {
   render(<FilterPanel />);
-  // Mutate state away from defaults (subset shown — your file may change more fields).
   fireEvent.click(screen.getByRole('button', { name: 'Earthquakes' }));
-  // `getByDisplayValue` finds the input currently showing "2" (min magnitude default).
   fireEvent.change(screen.getByDisplayValue('2'), { target: { value: '5' } });
-  // Trigger resetFilters() in the store.
   fireEvent.click(screen.getByRole('button', { name: 'Reset' }));
   const state = useFilterStore.getState();
   expect(state.eventType).toBe('all');
   expect(state.minMagnitude).toBe(2);
-  expect(state.maxMagnitude).toBe(10);
-  expect(state.eonetStatus).toBe('open');
 });
 ```
 
-### Vue version differences
-
-The Vue tests (`FilterPanel.test.ts`) test the same 6 cases but use:
-
-- `mount(FilterPanel)` from `@vue/test-utils` instead of `render(<FilterPanel />)`
-- `setActivePinia(createPinia())` in `beforeEach` to set up a fresh Pinia store
-- `wrapper.find('button').trigger('click')` instead of `fireEvent.click()`
-- `wrapper.find('input').setValue('4')` instead of `fireEvent.change()`
-
-### Navbar tests (2 tests each)
-
-```ts
-// Smoke test: routing links exist with correct accessible names (screen readers + tests).
-it('renders all 3 navigation links', () => { ... });
-// Branding test: navbar shows the product name you chose (not a Vite placeholder).
-it('renders the NaturalEvents brand name', () => { ... });
-```
-
-### How to run
+**Navbar tests (2 each):** Check that all 3 nav links show up, and that "NaturalEvents" brand is displayed.
 
 ```bash
-npm run test:react   # Vitest: React only (FilterPanel + Navbar tests)
-npm run test:vue     # Vitest: Vue only (same scenarios, Vue Test Utils)
-npm run test         # Runs react then vue — full count = 16 tests if all pass
+npm run test    # Runs both apps — 16 tests total
 ```
-
-### What to show
-
-1. Open `apps/react/src/__tests__/FilterPanel.test.tsx` — walk through the test structure
-2. Open `apps/vue/src/__tests__/FilterPanel.test.ts` side by side — show they test the same things
-3. Run `npm run test` in the terminal — show all 16 tests passing (8 per app)
-
-### What to say
-
-> "FilterPanel is the main test target because it has the most user interaction. I test 6 things: that all controls render, and that clicking buttons, changing inputs, changing the dropdown, and clicking reset all correctly update the global store. The Navbar also has basic rendering tests. Both apps have the exact same test cases — just using their framework's testing library."
-
-### Presenter script
-
-I have **component tests** that render **isolated** pieces of the UI — no full browser, using **Vitest** and **jsdom**. The main focus is **FilterPanel**: six tests that the **controls render**, that **clicks and input changes update Zustand or Pinia**, and that **Reset** restores defaults. I also test the **Navbar** for links and branding. React uses **Testing Library**; Vue uses **Vue Test Utils** with a fresh **Pinia** per test — same scenarios, different APIs. I’ll run **`npm run test`** from the root and you’ll see **sixteen** tests if you count both apps.
 
 ---
 
@@ -674,110 +434,55 @@ I have **component tests** that render **isolated** pieces of the UI — no full
 
 > _My 2 apps have e2e tests that test user flows that contain multiple components working together._
 
-### Where it is
+### Presenter script
 
-- **Playwright config:** `playwright.config.ts` at root
-- **React E2E:** `e2e/react/navigation.spec.ts` (56 lines)
-- **Vue E2E:** `e2e/vue/navigation.spec.ts` (56 lines)
+> "E2E tests are different from component tests. Component tests check one piece by itself. **End-to-end tests** open a **real browser** — Chromium — and interact with the full app like a real user would. I have four E2E tests: the first checks that the dashboard loads with the navbar and filter panel all visible together — that's multiple components working as one. The second clicks the Analytics link, checks that the URL changes, and makes sure the page shows up. The third does the same for the About page. And the fourth navigates back to the dashboard to test the full round trip. These tests prove that routing, layout, and multiple components all work together — not just individually. The Playwright config starts both dev servers automatically before running the tests."
 
-### How E2E differs from component tests
+### What to show
 
-Component tests render a **single component** in jsdom (fake DOM). E2E tests open a **real browser** (Chromium), load the **entire app**, and interact with it like a user would — testing that **multiple components work together**.
+1. Open `e2e/react/navigation.spec.ts` — walk through the test flow.
+2. Open `playwright.config.ts` — show the two projects and webServer config.
+3. Run `npm run e2e` or show a CI run with the results.
 
-### The 4 test cases (identical for both apps)
+### Details
+
+- **React E2E:** `e2e/react/navigation.spec.ts`
+- **Vue E2E:** `e2e/vue/navigation.spec.ts`
 
 **Test 1: Dashboard loads with navbar and filter panel**
 
-**Idea:** Unlike unit tests, this loads the **real app** in Chromium. You are proving the main route wires layout + navbar + filters without manually clicking everything in every demo.
-
 ```ts
 test('loads the dashboard with navbar and filter panel', async ({ page }) => {
-  await page.goto('/'); // Same as typing the site URL in the browser.
+  await page.goto('/');
   await expect(page.locator('nav')).toBeVisible();
   await expect(page.getByText('NaturalEvents')).toBeVisible();
-  // Router must render these links on the home page.
   await expect(page.getByRole('link', { name: 'Dashboard' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Analytics' })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'About' })).toBeVisible();
-  // FilterPanel buttons from the first screen — proves dashboard composition works.
   await expect(page.getByRole('button', { name: 'All' })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Earthquakes' })).toBeVisible();
-  await expect(
-    page.getByRole('button', { name: 'Natural Events' })
-  ).toBeVisible();
   await expect(page.getByRole('button', { name: 'Reset' })).toBeVisible();
 });
 ```
 
-This tests **Navbar + FilterPanel + Dashboard page** all rendering together.
-
 **Test 2: Navigate to Analytics**
-
-**Idea:** Prove **client-side routing**: the URL updates and the Analytics view mounts. Charts may load async or show empty state, so the assertion allows multiple headings/strings.
 
 ```ts
 test('navigates to analytics page', async ({ page }) => {
   await page.goto('/');
-  // Real user path: click the Analytics nav link.
   await page.getByRole('link', { name: 'Analytics' }).click();
   await expect(page).toHaveURL('/analytics');
-  // FilterPanel is reused on analytics — should still be visible.
   await expect(page.getByRole('button', { name: 'All' })).toBeVisible();
-  // Either the chart title, or empty copy, or loading text — all valid outcomes while data settles.
   await expect(
     page.getByText(/Magnitude Distribution|No events match|Loading analytics/)
   ).toBeVisible({ timeout: 15000 });
 });
 ```
 
-This tests **navigation** (click link → URL changes → new page renders) + **Analytics page** (filter panel + charts or empty state). The regex handles all three possible states (data loaded, no data, loading).
-
-**Test 3: Navigate to About**
-Tests that the About page shows all sections (heading, API info, tech stack, course info).
-
-**Test 4: Navigate back to Dashboard from About**
-Tests a full round-trip: About → click Dashboard → back on `/` with filter panel visible.
-
-### Playwright config details
-
-```ts
-webServer: [
-  {
-    command: 'npm run dev:react',
-    url: 'http://localhost:3000',
-    // Locally: if you already ran dev servers, don’t spawn duplicates. CI: always fresh (env CI is set).
-    reuseExistingServer: !process.env.CI,
-  },
-  {
-    command: 'npm run dev:vue',
-    url: 'http://localhost:3001',
-    reuseExistingServer: !process.env.CI,
-  },
-],
-```
-
-In CI, Playwright starts fresh dev servers. Locally, it reuses any already-running servers.
-
-### How to run
+**Test 3:** Navigate to About — checks all sections show up.
+**Test 4:** Navigate back to Dashboard from About — tests round trip.
 
 ```bash
-npm run e2e           # runs both React and Vue E2E tests
-npm run e2e -w apps/react  # React only
+npm run e2e    # Runs both React and Vue E2E tests
 ```
-
-### What to show
-
-1. Open `e2e/react/navigation.spec.ts` — walk through the test flow
-2. Open `playwright.config.ts` — show the two projects and webServer config
-3. Run `npm run e2e` live or show a CI run with the results
-
-### What to say
-
-> "E2E tests verify full user flows in a real browser. The first test checks that the dashboard loads with both the navbar and filter panel visible — that's multiple components working together. The second test clicks the Analytics link and verifies the URL changes and the page renders. These are different from component tests because they test the app as a whole, not individual components."
-
-### Presenter script
-
-**End-to-end tests** use **Playwright** against a **real Chromium** instance. They live under **`e2e/react`** and **`e2e/vue`** with the same four flows: home loads with **nav + filters**, navigate to **Analytics** and assert URL and content, **About** content, and navigate **back** to the dashboard. That proves **routing**, **layout**, and **multiple components** work together — not a single mounted widget. Config **starts both dev servers** for CI and wires **base URLs** per project. Component tests are surgical; E2E is “does the whole app behave like a user session?”
 
 ---
 
@@ -785,90 +490,50 @@ npm run e2e -w apps/react  # React only
 
 > _My 2 apps have stories for my basic components using storybook._
 
-### Where it is
+### Presenter script
 
-**React stories** (in `apps/react/src/components/`):
-| File | Stories |
-|------|---------|
-| `FilterPanel.stories.tsx` | Default |
-| `EventMap.stories.tsx` | Default (with mock data), Empty (no events) |
-| `StatsBar.stories.tsx` | Default, Empty, HighMagnitude (M8.9) |
-| `Navbar.stories.tsx` | Default |
-| `Layout.stories.tsx` | Default |
+> "I set up **Storybook** for both apps. Storybook is basically a catalog where you can browse each component by itself, outside of the full app. Each of the five main components has a stories file. I use **mock data** — fake earthquake and event data — so I can show components in different states without hitting the real API. For example, StatsBar has a 'Default' story with normal data, an 'Empty' story with no data, and a 'HighMagnitude' story that shows what a really big earthquake looks like. Both apps have the same stories — React runs on port 6006, Vue on port 6007."
 
-**Vue stories** (in `apps/vue/src/components/`):
-Same 5 components, same story variants.
+### What to show
 
-**Mock data** — `apps/react/src/components/__mocks__/eventData.ts`:
+1. Run `npm run storybook:react` — browse the sidebar showing all 5 components.
+2. Click through StatsBar stories — show Default, Empty, HighMagnitude.
+3. Open a `.stories.tsx` file to show how it's defined.
 
-**Why mock data:** Storybook renders components **without** your real hooks or APIs. Fake objects let you show “busy map” or “empty stats” on demand.
+### Details
 
-```ts
-// Two small quakes — useful for default map/stats appearance.
-export const mockEarthquakes: EarthquakeFeature[] = [...]
-// One extreme quake — tests legend scaling, big numbers in StatsBar, tsunami copy if you show it.
-export const mockHighMagEarthquake: EarthquakeFeature = {...}
-// EONET samples: different categories/status so marker colors and labels vary.
-export const mockEonetEvents: EonetEvent[] = [...]
-```
+**Stories per component:**
+| Component | Stories |
+|-----------|---------|
+| FilterPanel | Default |
+| EventMap | Default (with mock data), Empty |
+| StatsBar | Default, Empty, HighMagnitude (M8.9) |
+| Navbar | Default |
+| Layout | Default |
 
-**How a story is defined** (e.g., `StatsBar.stories.tsx`):
+Same for both React and Vue.
 
-**Storybook vocabulary:** A **story** is one saved UI state (like a preset). **`args`** are the props Storybook passes into the component for that state.
+**Example story** (`StatsBar.stories.tsx`):
 
 ```tsx
-// `meta` registers the component with Storybook (title, argTypes, decorators).
 const meta: Meta<typeof StatsBar> = { component: StatsBar };
 export default meta;
 
-// Default = “normal day” with mixed earthquakes + EONET events.
 export const Default: Story = {
-  args: {
-    earthquakes: mockEarthquakes,
-    eonetEvents: mockEonetEvents,
-  },
+  args: { earthquakes: mockEarthquakes, eonetEvents: mockEonetEvents },
 };
-
-// Empty = verify your empty-state messaging and layout don’t break.
 export const Empty: Story = {
   args: { earthquakes: [], eonetEvents: [] },
 };
-
-// HighMagnitude = stress-test formatting and emphasis for a rare huge quake.
 export const HighMagnitude: Story = {
   args: { earthquakes: [mockHighMagEarthquake], eonetEvents: [] },
 };
 ```
 
-Each story provides different props to show the component in different states.
-
-**Storybook config:**
-
-- React: `apps/react/.storybook/` — runs on port 6006
-- Vue: `apps/vue/.storybook/` — runs on port 6007
-- Both set up necessary plugins (Pinia, Vue Router for Vue; React Router for React)
-
-### How to run
-
 ```bash
-npm run storybook:react   # Component gallery for React (port 6006)
-npm run storybook:vue     # Same idea for Vue (port 6007)
+npm run storybook:react   # Port 6006
+npm run storybook:vue     # Port 6007
 ```
-
-### What to show
-
-1. Run `npm run storybook:react` — browse the sidebar showing all 5 components
-2. Click through StatsBar stories — show Default, Empty, and HighMagnitude variants
-3. Show EventMap with mock data vs empty
-4. Open a `.stories.tsx` file to show how it's defined
-
-### What to say
-
-> "Each basic component has Storybook stories. I can view them in different states — for example, StatsBar with data, without data, and with a high-magnitude earthquake. Mock data simulates realistic API responses so I can develop and test components in isolation without hitting the real API."
-
-### Presenter script
-
-**Storybook** gives a **catalog** of UI components outside the full app. Each of the five main components has a **stories** file — React and Vue mirror each other. I use **mock earthquake and EONET data** so **EventMap** and **StatsBar** can show **default**, **empty**, and **edge** cases — for example a **very large magnitude** quake. Stories set **`args`** like normal props. I can run **`npm run storybook:react`** or **`storybook:vue`** on different ports and click through the sidebar — useful for demos and for checking layout without depending on live APIs.
 
 ---
 
@@ -876,36 +541,30 @@ npm run storybook:vue     # Same idea for Vue (port 6007)
 
 > _My 2 apps have a descriptive readme.md file with: a screenshot, description, how to run the project, a description of the scripts available and a link to the deployed, live website._
 
-### Where it is
+### Presenter script
+
+> "Both apps have detailed README files. Each one has a **screenshot** of the dashboard, a **description** of what the app does, **step-by-step instructions** on how to install and run it, a **table listing all the npm scripts**, the **tech stack**, **API credits** with links, and a direct link to the **live deployed site**. There's also a root README for the monorepo overview. Anyone who opens the repo on GitHub gets everything they need in one place."
+
+### What to show
+
+- Open `apps/react/README.md` on GitHub (rendered Markdown) — scroll through sections.
+- Point out: screenshot, live link, scripts table.
+
+### Details
 
 - `apps/react/README.md`
 - `apps/vue/README.md`
 - `README.md` (root — monorepo overview)
 
-### What each app README contains (checklist)
-
-| Section        |                                            React README                                             |                                     Vue README                                     |
-| -------------- | :-------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------: |
-| Screenshot     |                        `![Dashboard Screenshot](../../docs/screenshot.png)`                         |                `![Dashboard Screenshot](../../docs/screenshot.png)`                |
-| Description    |                    "An interactive dashboard that visualizes earthquake data..."                    |                                        Same                                        |
-| Live site link |                              `https://natural-events-react.vercel.app`                              |                      `https://natural-events-vue.vercel.app`                       |
-| How to run     |                          `npm install` + `npm run dev:react` on port 3000                           |                   `npm install` + `npm run dev:vue` on port 3001                   |
-| Scripts table  | 10 scripts (dev, build, preview, test, lint, format, format:check, e2e, storybook, build-storybook) |                                  Same 10 scripts                                   |
-| Tech stack     |         React 19, Zustand, react-leaflet, Recharts, Tailwind, Vitest, Playwright, Storybook         | Vue 3.5, Pinia, @vue-leaflet, vue-chartjs, Tailwind, Vitest, Playwright, Storybook |
-| API references |                                    USGS + NASA EONET with links                                     |                                        Same                                        |
-
-### What to show
-
-- Open `apps/react/README.md` on GitHub (rendered Markdown) — scroll through sections
-- Point out: screenshot, live link, scripts table
-
-### What to say
-
-> "Both apps have descriptive READMEs with a screenshot, a description of what the app does, instructions on how to run it, a complete scripts table, and links to the live deployed site."
-
-### Presenter script
-
-Documentation lives in **`apps/react/README.md`**, **`apps/vue/README.md`**, and a **root README** for the monorepo. Each app README includes a **screenshot** of the dashboard, a short **description** of NaturalEvents, **how to install and run** the dev server, a **table of npm scripts** with what they do, the **tech stack**, **API credits** with links, and a direct link to the **deployed Vercel** site. Anyone opening the repo on GitHub gets install steps, scripts, and the live product in one place.
+| Section        | ✅ React                            | ✅ Vue                            |
+| -------------- | ----------------------------------- | --------------------------------- |
+| Screenshot     | Yes                                 | Yes                               |
+| Description    | Yes                                 | Yes                               |
+| Live site link | `natural-events-react.vercel.app`   | `natural-events-vue.vercel.app`   |
+| How to run     | `npm install` + `npm run dev:react` | `npm install` + `npm run dev:vue` |
+| Scripts table  | 10 scripts                          | 10 scripts                        |
+| Tech stack     | Yes                                 | Yes                               |
+| API references | USGS + NASA EONET                   | Same                              |
 
 ---
 
@@ -913,32 +572,22 @@ Documentation lives in **`apps/react/README.md`**, **`apps/vue/README.md`**, and
 
 > _My 2 apps have no dead code, old counter example code or boilerplate code from the init command. Also remove unused assets._
 
-### How to prove it
+### Presenter script
 
-1. **No Vite boilerplate:** No `App.css` with template styles, no `logo.svg`, no counter component, no `assets/react.svg`.
-2. **Every file has a purpose:**
-   - `src/pages/` — 4 page components
-   - `src/components/` — 5 functional components + 5 story files + 1 mock data file
-   - `src/hooks/` or `src/composables/` — 2 data-fetching hooks
-   - `src/services/` — 2 API service files
-   - `src/store/` or `src/stores/` — 1 filter store
-   - `src/__tests__/` — 2 test files
-3. **No commented-out code:** You can scroll through any file and there are no commented-out blocks.
-4. **Lint enforces it:** ESLint has `@typescript-eslint/no-unused-vars: warn` — any unused imports or variables show up in lint.
-5. **TypeScript enforces it:** Vue's `tsconfig.json` has `noUnusedLocals` and `noUnusedParameters` enabled.
+> "I cleaned up everything that came with the Vite starter. There's no leftover counter demo, no template logos, no sample CSS — none of that. Every file in the project serves a real purpose: pages, components, services, store, tests, and stories. ESLint is set up to warn about unused variables, and TypeScript in strict mode catches unused code too. If I run `npm run lint`, there are no warnings about leftover junk."
 
 ### What to show
 
-- Browse `apps/react/src/` in the file tree — show there's no junk
-- Run `npm run lint` — clean output, no warnings about unused code
+- Browse `apps/react/src/` in the file tree — show there's no junk.
+- Run `npm run lint` — clean output.
 
-### What to say
+### Details
 
-> "I removed all Vite boilerplate — no default counter, no template logos, no sample CSS. Every file in the project serves a purpose. ESLint flags unused variables, and TypeScript strict mode catches unused locals."
-
-### Presenter script
-
-There’s **no dead tutorial code** from the Vite starter: no sample counter, no unused logos, no giant template **App.css**. The **file tree** maps cleanly to features — pages, components, services, store, tests, stories. I’m not carrying commented-out experiments. **ESLint** warns on **unused variables**, and the Vue **tsconfig** uses **no unused locals** so the compiler nags too. If you run **lint** at the root, you shouldn’t see a pile of noise from orphan imports or junk files.
+1. No Vite boilerplate — no default logos, no counter, no template CSS.
+2. Every file maps to a feature: pages, components, hooks, services, store, tests.
+3. No commented-out code blocks anywhere.
+4. ESLint has `@typescript-eslint/no-unused-vars: warn`.
+5. Vue's `tsconfig.json` has `noUnusedLocals` and `noUnusedParameters`.
 
 ---
 
@@ -946,41 +595,29 @@ There’s **no dead tutorial code** from the Vite starter: no sample counter, no
 
 > _My 2 apps match exactly visually and in regards to what is being tested._
 
-### Visual match — how
+### Presenter script
 
-Both apps use **the exact same Tailwind CSS classes**. Since Tailwind is utility-first (classes like `rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-100`), using the same class names produces identical visual output regardless of framework.
-
-Examples of matching classes:
-
-- FilterPanel container: `rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-100`
-- Active toggle button: `bg-indigo-600 text-white shadow-sm`
-- Stats cards: `rounded-xl bg-white p-4 text-center shadow-sm ring-1 ring-gray-100`
-- Map container: `h-[500px] w-full overflow-hidden rounded-xl shadow-sm ring-1 ring-gray-100`
-
-### Test match — what
-
-| Test file      |             React              |             Vue              | Test count |
-| -------------- | :----------------------------: | :--------------------------: | :--------: |
-| FilterPanel    |     `FilterPanel.test.tsx`     |    `FilterPanel.test.ts`     |   6 each   |
-| Navbar         |       `Navbar.test.tsx`        |     `AppNavbar.test.ts`      |   2 each   |
-| E2E Navigation | `e2e/react/navigation.spec.ts` | `e2e/vue/navigation.spec.ts` |   4 each   |
-| Storybook      |    5 components, 9 stories     |   5 components, 9 stories    |    Same    |
-
-The E2E test files are **literally the same code** except for the describe block name ("React App Navigation" vs "Vue App Navigation").
+> "Side by side in the browser, both apps look identical — I used the exact same **Tailwind CSS** classes in both. Since Tailwind works with utility classes like `bg-white`, `rounded-xl`, `shadow-sm`, using the same class names in React and Vue produces the same visual result. And the testing is parallel too: same 6 FilterPanel tests, same 2 Navbar tests, same 4 E2E tests, same Storybook stories. The only differences are framework-specific things like React hooks versus Vue composables, or Zustand versus Pinia — not different product behavior."
 
 ### What to show
 
-- Open both live apps side by side in the browser — visually identical
-- Open `apps/react/src/__tests__/FilterPanel.test.tsx` and `apps/vue/src/__tests__/FilterPanel.test.ts` side by side — same 6 test cases
-- Open `e2e/react/navigation.spec.ts` and `e2e/vue/navigation.spec.ts` side by side — identical test logic
+- Open both live apps side by side in the browser — visually identical.
+- Open test files side by side — same test cases.
 
-### What to say
+### Details
 
-> "Both apps look identical because they use the same Tailwind CSS classes. And they're tested identically — same 6 FilterPanel tests, same 2 Navbar tests, same 4 E2E navigation tests, same Storybook stories. The only differences are framework-specific: React Testing Library vs Vue Test Utils, useEffect vs watch, Zustand vs Pinia."
+**Visual match** — same Tailwind classes, e.g.:
 
-### Presenter script
+- FilterPanel: `rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-100`
+- Active button: `bg-indigo-600 text-white shadow-sm`
 
-Side by side in the browser, the apps should **look the same** — I reused the **same Tailwind utility classes** for layout, cards, buttons, and the map container, so the design isn’t “React vs Vue”; it’s one spec, two implementations. **Testing** is parallel too: **six** FilterPanel tests, **two** Navbar tests, **four** E2E navigation specs, and the **same Storybook** coverage. The **diff** is framework mechanics — hooks versus composables, Zustand versus Pinia — not different product behavior.
+**Test match:**
+| Test area | React | Vue | Count |
+|-----------|-------|-----|-------|
+| FilterPanel | `FilterPanel.test.tsx` | `FilterPanel.test.ts` | 6 each |
+| Navbar | `Navbar.test.tsx` | `AppNavbar.test.ts` | 2 each |
+| E2E | `e2e/react/navigation.spec.ts` | `e2e/vue/navigation.spec.ts` | 4 each |
+| Storybook | 5 components, 9 stories | 5 components, 9 stories | Same |
 
 ---
 
@@ -988,29 +625,25 @@ Side by side in the browser, the apps should **look the same** — I reused the 
 
 > _My 2 apps have descriptive titles, and names. Nothing like "my app", "front-end-frameworks app", "test app"._
 
-### Where it is
+### Presenter script
 
-| What                  | Name                                                     |
-| --------------------- | -------------------------------------------------------- |
-| App brand (in navbar) | **NaturalEvents**                                        |
-| Root package name     | `terrawatch`                                             |
-| React Vercel URL      | `natural-events-react.vercel.app`                        |
-| Vue Vercel URL        | `natural-events-vue.vercel.app`                          |
-| Browser tab title     | Set in `apps/react/index.html` and `apps/vue/index.html` |
-| About page heading    | "About NaturalEvents"                                    |
+> "The app is called **NaturalEvents** — it's a clear, descriptive name for what it does: monitoring earthquakes and natural events on a map. You can see the name in the navbar, the browser tab title, the About page, and the Vercel URLs. There are no generic names like 'my app' or 'test project' anywhere."
 
 ### What to show
 
-- Point to the "NaturalEvents" brand in the top-left of the navbar.
+- Point to the "NaturalEvents" brand in the navbar.
 - Point to the browser tab title.
 
-### What to say
+### Details
 
-> "The app is called NaturalEvents — it's a descriptive name for a dashboard that monitors earthquakes and natural events. The Vercel URLs, page titles, and navbar all use this name. No generic names anywhere."
-
-### Presenter script
-
-The product has a clear identity: **NaturalEvents** — you see it in the **navbar**, the **HTML title**, and the **About** page. Deployed URLs use **natural-events-\*** on Vercel so they’re recognizable. I avoided generic names like “my app” or “framework homework”; naming matches what the app actually does — **earthquakes and natural events** on a map.
+| What               | Name                              |
+| ------------------ | --------------------------------- |
+| App brand (navbar) | **NaturalEvents**                 |
+| Root package name  | `terrawatch`                      |
+| React URL          | `natural-events-react.vercel.app` |
+| Vue URL            | `natural-events-vue.vercel.app`   |
+| Browser tab title  | Set in `index.html` files         |
+| About page heading | "About NaturalEvents"             |
 
 ---
 
@@ -1018,192 +651,73 @@ The product has a clear identity: **NaturalEvents** — you see it in the **navb
 
 > _I am comfortable answering questions about my project and explaining my engineering decisions._
 
-### Key decisions to be ready to explain
+### Presenter script
 
-### Presenter script (Q&A segment)
+> "If we have time for questions, I'm happy to go deeper into any of the decisions I made. I'll try to answer in three parts: **what I chose**, **why it was a good fit**, and **what the tradeoff was**. I can walk through the data flow from filter panel to store to API to UI, or explain why I picked specific libraries."
 
-If we have time for questions, I’m happy to go deeper. I’ll listen to the full question, then answer in **three beats**: **what I chose**, **why it fit this project**, and **what the tradeoff was** — for example monorepo versus two repos, or Zustand versus Redux. I can walk the **data path** from **filter panel → store → hook → API → UI**, or **justify libraries** — Leaflet without API keys, Axios for query params, framework-native chart libraries. If something isn’t in the slides, I can point to the **file** or **script** where it lives. Below are short canned answers you can reuse or shorten.
-
----
+### Common questions and how to answer them
 
 **Q: Why a monorepo instead of two separate repos?**
 
-> "I used a monorepo with npm workspaces so both apps can share TypeScript types and API constants from `packages/shared/`. If I change a type or URL, both apps get the update immediately. It also means one CI pipeline, one Playwright config, one ESLint config, and one Prettier config instead of duplicating everything."
-
----
+> "So both apps can share TypeScript types and API constants from `packages/shared/`. One change updates both apps. It also means one CI pipeline instead of duplicating everything."
 
 **Q: Why Zustand for React and Pinia for Vue?**
 
-> "Zustand is the most popular lightweight state manager for React — it's much simpler than Redux. Pinia is the official state library for Vue 3, it replaced Vuex. Both follow a similar pattern: define state and actions in a store, access it from any component."
-
-React (Zustand) — `apps/react/src/store/filterStore.ts`:
-
-**How to read Zustand:** `create` returns a **hook** `useFilterStore`. The object holds **state** (plain values) and **actions** (functions that call `set` to replace part of the state). Anything in the store is readable from any component.
-
-```ts
-export const useFilterStore = create<FilterState>((set) => ({
-  // --- State fields (what the UI reads) ---
-  eventType: 'all',
-  minMagnitude: 2,
-  maxMagnitude: 10,
-  ...getDefaultDates(), // helper that fills start/end date defaults (e.g. last 30 days)
-  eonetStatus: 'open',
-  // --- Actions (what the UI calls when user interacts) ---
-  setEventType: (eventType) => set({ eventType }), // merge-update: only eventType changes
-  resetFilters: () => set({ eventType: 'all', minMagnitude: 2, ... }),
-}));
-```
-
-Vue (Pinia) — `apps/vue/src/stores/filterStore.ts`:
-
-**How to read Pinia “setup store”:** `ref` makes values reactive. You **return** refs and functions from the factory — Pinia exposes them on `useFilterStore()`. Same pattern as Zustand: central state + methods.
-
-```ts
-export const useFilterStore = defineStore('filter', () => {
-  // `ref` wraps a primitive/object in a reactive container (.value in script).
-  const eventType = ref<'all' | 'earthquakes' | 'natural'>('all');
-  const minMagnitude = ref(2);
-  // ... maxMagnitude, dates, eonetStatus, setters ...
-  function resetFilters() {
-    eventType.value = 'all';
-    minMagnitude.value = 2;
-    // ...restore other defaults...
-  }
-  // Everything returned is public on the store instance.
-  return { eventType, minMagnitude, ..., resetFilters };
-});
-```
-
----
+> "Zustand is a popular lightweight state manager for React — much simpler than Redux. Pinia is the official state library for Vue 3. Both follow a similar pattern."
 
 **Q: Why Leaflet for maps?**
 
-> "Leaflet is free, open-source, and doesn't need an API key — unlike Google Maps or Mapbox. Both `react-leaflet` and `@vue-leaflet/vue-leaflet` are mature wrappers. For a university project, not needing API keys is a big advantage."
-
----
-
-**Q: Why Recharts for React and vue-chartjs for Vue?**
-
-> "Recharts is the most popular React charting library — it uses React components so it feels natural. For Vue, vue-chartjs wraps Chart.js with Vue components. I used the most idiomatic option for each framework rather than forcing the same library on both."
-
----
+> "Leaflet is free, open-source, and doesn't need an API key — unlike Google Maps or Mapbox."
 
 **Q: Why Axios instead of fetch?**
 
-> "Axios has cleaner syntax for query parameters — you pass them as an object and it handles URL encoding. It also auto-parses JSON responses. With fetch, I'd need to manually append query strings and call `.json()` on every response."
+> "Axios has cleaner syntax for query parameters — you pass them as an object. It also auto-parses JSON. With fetch, I'd need to manually build query strings and call `.json()` every time."
 
----
+**Q: Why put filters in a global store?**
 
-**Q: Why put filters in a global store instead of component state?**
+> "Filters are used on multiple pages. If I kept them in component state, they'd reset every time you navigate. A global store keeps them persistent across pages."
 
-> "Filters are used by the dashboard (map + stats bar), the analytics page (charts), and the data-fetching hooks/composables. If I kept them in component state, I'd need to pass them as props through multiple levels (prop drilling) and they'd reset when navigating between pages. A global store persists filters across page navigation."
+**Q: How does the data flow work?**
 
----
-
-**Q: How does the data flow work end-to-end?**
-
-**One sentence version:** “Filters live in one global store; hooks listen to those values, fetch from the API when they change, and whatever component uses the hook gets fresh data and redraws.”
-
-> 1. User changes a filter in FilterPanel → store updates immediately (e.g., `setMinMagnitude(5)`)
-> 2. The `useEarthquakes` hook reads those store values. When they change, `useEffect` (React) / `watch` (Vue) runs again.
-> 3. The hook calls `fetchEarthquakes()` with the new params → Axios GET to USGS API (same idea for EONET in its composable).
-> 4. API returns GeoJSON → hook updates its **local** `data` state (this is separate from the store: store = filters, hook state = current result list).
-> 5. Components that use the hook (Dashboard, Analytics) **re-render** because their data changed.
-> 6. Map shows updated markers, StatsBar shows updated counts, charts show updated distributions.
-
-**Memory aid if you draw on a whiteboard:** `FilterPanel → store → hook → service → API → hook state → Map / StatsBar / Charts`.
-
----
+> "User changes a filter → store updates → hook notices and re-fetches from the API → new data comes back → all components using that hook re-render. FilterPanel → Store → Hook → API → Map / StatsBar / Charts."
 
 **Q: How do the map marker colors work?**
 
-Earthquake markers — color by depth (`EventMap.tsx` lines 11-16):
+> "Earthquake markers are colored by depth — shallow is orange, deep is blue. Size is based on magnitude. EONET events are colored by category — red for fires, purple for storms, etc."
 
-**Presentation line:** “Depth is how far underground the quake started; I use a simple stepped scale so shallow shakes ‘feel’ hotter and deep ones cooler.”
+**Q: Why lazy-load the map?**
 
-```ts
-function getDepthColor(depth: number) {
-  if (depth < 30) return '#f97316'; // shallow — warm orange
-  if (depth < 100) return '#eab308'; // mid — yellow
-  if (depth < 300) return '#22c55e'; // deeper — green
-  return '#3b82f6'; // very deep — blue
-}
-```
+> "Leaflet is a big library. Lazy-loading means it's not included in the initial page load, so the app starts faster."
 
-Size by magnitude: `radius = Math.max(mag * 3, 4)` — **stronger quakes get a larger circle** (magnitude is “how big”), with a **minimum radius of 4** so tiny quakes are still clickable.
+**Q: What APIs do you use?**
 
-EONET markers — color by category (`EventMap.tsx` lines 18-27):
+> "USGS for real-time earthquakes and NASA EONET for natural events like wildfires and storms. Both are free, no API keys needed."
 
-**Presentation line:** “Natural events aren’t ‘magnitude,’ so I bucket by NASA category id and map each to a color — users spot fires vs storms instantly.”
+**Q: How does Event Detail know if it's an earthquake or EONET event?**
 
-```ts
-const colors: Record<string, string> = {
-  wildfires: '#ef4444', // red — fire
-  severeStorms: '#8b5cf6', // purple — storm systems
-  volcanoes: '#f97316', // orange — volcanic activity
-  seaLakeIce: '#06b6d4', // cyan — ice / water features
-  snow: '#06b6d4', // cyan — winter weather (same family visually)
-};
-```
-
-Fixed **8px radius** for EONET markers (you are not encoding intensity the same way as USGS magnitude).
+> "It checks the ID. EONET IDs start with `EONET_`, earthquake IDs don't. One `startsWith` check routes to the right API."
 
 ---
 
-**Q: Why lazy-load the map component?**
+## Quick Demo Script (suggested order)
 
-> "Leaflet is a heavy library (~40KB gzipped). By lazy-loading it with `React.lazy()` / `defineAsyncComponent()`, the map code isn't included in the initial bundle. The app loads faster, and the map loads asynchronously with a 'Loading map...' placeholder. This also avoids SSR issues since Leaflet accesses `window` directly."
+> **Start:** "I'll show both deployed apps first so you can see they look the same, then demo the interactions, then show some code and tests."
 
----
-
-**Q: What are the two APIs you use?**
-
-> "USGS Earthquake API — it's the US Geological Survey's real-time earthquake feed. I query it with filters (magnitude range, date range) and it returns GeoJSON with earthquake features including magnitude, depth, location, felt reports, and tsunami status."
->
-> "NASA EONET v3 — Earth Observatory Natural Event Tracker. It tracks ongoing natural events like wildfires, storms, volcanoes, and sea ice. I can filter by status (open/closed). Each event has a title, category, coordinates, and source links."
->
-> "Both are free and don't require API keys."
-
----
-
-**Q: How does the Event Detail page know if it's an earthquake or EONET event?**
-
-> "It checks the ID format. EONET event IDs start with `EONET_` (e.g., `EONET_6744`). Earthquake IDs are alphanumeric (e.g., `us7000n1a5`). The code is just: `const isEonet = id?.startsWith('EONET_')`. Then it calls the appropriate API."
-
-From `EventDetail.tsx` (line 11):
-
-**Why this works:** Your app encodes EONET ids with an **`EONET_` prefix** when building links from NASA EONET feature ids, while USGS ids look like `us7000n1a5`. One `startsWith` check routes to the correct fetcher.
-
-```ts
-// Optional chaining: if `id` were undefined, this safely yields false instead of throwing.
-const isEonet = id?.startsWith('EONET_');
-```
-
----
-
-## Quick Demo Script (suggested presentation order)
-
-Use this as a **checklist**, not a script to read word-for-word. Between steps, breathe: say what you are doing (“now I’ll change the filter and you should see the map refresh”) so the audience follows the cause and effect.
-
-### Presenter script (live demo spine)
-
-**Start:** “I’ll show both deployed apps first so you see the same UX in React and Vue, then I’ll use interaction to hit navigation, popups, filters, and charts.” **While clicking:** Name the action — “I’m opening a marker popup,” “now I’m changing the minimum magnitude,” “here’s Analytics using the same filters.” **Before code:** “Under the hood, data comes from shared constants and services; I’ll show one hook and the store.” **Before tests:** “I’ll run the test suite from the root so you see both apps.” **End:** “READMEs and CI back this up on GitHub if you want to dig in later.”
-
-1. **Open both live apps** (React + Vue) side by side — show they look identical
-2. **Dashboard tour:** point out the map, colored markers, stats bar
-3. **Click a marker** → show the popup → click "View details" → event detail page → "Back to Dashboard"
-4. **Filter interaction:** toggle event type, change magnitude range, change dates — watch map update
-5. **Click "Reset"** — everything reverts
-6. **Analytics page:** show the bar chart (magnitude distribution) and line chart (events over time)
-7. **About page:** quick glance at API credits and tech stack
+1. **Open both live apps** side by side — show they look identical
+2. **Dashboard tour:** map, colored markers, stats bar
+3. **Click a marker** → popup → "View details" → detail page → "Back to Dashboard"
+4. **Filter interaction:** toggle event type, change magnitude, change dates
+5. **Click "Reset"** — everything goes back to defaults
+6. **Analytics page:** show the charts
+7. **About page:** quick glance
 8. **Code walkthrough:**
-   - `packages/shared/constants.ts` — centralized API URLs
-   - `apps/react/src/services/usgs.ts` — Axios service call
-   - `apps/react/src/hooks/useEarthquakes.ts` — data flow from store → API → components
-   - `apps/react/src/store/filterStore.ts` — Zustand store
-   - Show Vue equivalents briefly (composable + Pinia store)
-9. **Tests:** run `npm run test` in terminal — show all passing
-10. **CI:** open `.github/workflows/ci.yml` + show a green PR on GitHub
-11. **E2E:** open `e2e/react/navigation.spec.ts` — explain the 4 tests
-12. **Storybook:** run `npm run storybook:react` — browse components
-13. **READMEs:** show on GitHub (rendered markdown)
+   - `packages/shared/constants.ts` — API URLs
+   - `apps/react/src/services/usgs.ts` — API call
+   - `apps/react/src/hooks/useEarthquakes.ts` — data flow
+   - `apps/react/src/store/filterStore.ts` — global state
+   - Briefly show Vue equivalents
+9. **Tests:** run `npm run test` — show all passing
+10. **CI:** open `ci.yml` + show a green PR on GitHub
+11. **E2E:** open `e2e/react/navigation.spec.ts`
+12. **Storybook:** run `npm run storybook:react`
+13. **READMEs:** show on GitHub
