@@ -4,7 +4,7 @@ import { fetchEonetEvents } from '../services/eonet';
 import type { EonetEvent } from '@terrawatch/shared';
 
 export function useEonetEvents() {
-  const { eonetStatus } = useFilterStore();
+  const { eonetStatus, startDate, endDate } = useFilterStore();
   const [data, setData] = useState<EonetEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -13,7 +13,12 @@ export function useEonetEvents() {
     setLoading(true);
     setError(null);
 
-    const params = eonetStatus === 'all' ? {} : { status: eonetStatus };
+    const params = {
+      ...(eonetStatus === 'all' ? {} : { status: eonetStatus }),
+      // Date inputs from the dashboard are used for EONET filtering too.
+      start: startDate,
+      end: endDate,
+    };
 
     fetchEonetEvents(params)
       .then((response) => {
@@ -26,7 +31,7 @@ export function useEonetEvents() {
       .finally(() => {
         setLoading(false);
       });
-  }, [eonetStatus]);
+  }, [eonetStatus, startDate, endDate]);
 
   return { data, loading, error };
 }
