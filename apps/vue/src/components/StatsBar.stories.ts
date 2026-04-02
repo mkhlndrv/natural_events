@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
+import type { EarthquakeFeature, EonetEvent } from '@terrawatch/shared';
 import StatsBar from './StatsBar.vue';
 import {
   mockEarthquakes,
@@ -6,12 +7,17 @@ import {
   mockHighMagEarthquake,
 } from './__mocks__/eventData';
 
-const meta: Meta<typeof StatsBar> = {
+type StatsBarArgs = {
+  earthquakes: EarthquakeFeature[];
+  eonetEvents: EonetEvent[];
+};
+
+const meta: Meta<StatsBarArgs> = {
   component: StatsBar,
 };
 
 export default meta;
-type Story = StoryObj<typeof StatsBar>;
+type Story = StoryObj<StatsBarArgs>;
 
 export const Default: Story = {
   args: {

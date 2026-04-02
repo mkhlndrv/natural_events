@@ -8,6 +8,7 @@ This guide covers each grading criteria, explains where it's fulfilled in the co
 - **Service** = a module whose job is only to talk to the HTTP API (build URLs, call Axios, return data). **Hook / composable** = React/Vue logic that calls the service and keeps `loading`, `error`, and `data` in component-friendly form.
 - **Store** = a small global place for “app-wide” state (your filters). Without it, every page would need props passed down through many components.
 - **Code blocks below are teaching copies:** inline `//` comments were added **only in this Markdown file** so you can read or present what each part does. The real source files in `apps/` are unchanged.
+- **Presenter script** under each criterion is a longer, speakable version you can follow almost word for word. **What to say** stays the short one-liner if you only have a few seconds.
 
 ---
 
@@ -51,6 +52,10 @@ This means `npm install` at the root installs dependencies for all three package
 
 > "I built the same app in React and Vue. They're in a monorepo using npm workspaces, and they share TypeScript types and API constants from a shared package. This means if I change an API URL or a type definition, both apps pick it up."
 
+### Presenter script
+
+For this criterion I’m showing two implementations of the same product: one in **React** and one in **Vue**, which satisfies the requirement for two different front-end frameworks. They live in one repository as an **npm workspaces** monorepo — here’s the root `package.json` with `apps/*` and `packages/*`. That means I install dependencies once at the root, and both apps can import from **`packages/shared`** — shared **TypeScript types** and **API URL constants**. So I’m not duplicating types or endpoints; one change updates both apps.
+
 ---
 
 ## 2. Not using templates or pre-built apps
@@ -76,6 +81,10 @@ This means `npm install` at the root installs dependencies for all three package
 ### What to say
 
 > "I started from a blank Vite + React/Vue template and built everything myself — all the routing, state management, API integration, map rendering, charts, and filtering logic."
+
+### Presenter script
+
+I did **not** start from a dashboard template or a pre-built app. I used only the minimal **Vite** starter — basically an empty shell — and then implemented everything myself: **pages, routing, components, API services, global state, the map, charts, and filters**. If you look through `src/`, there’s no default Vite counter, no template logos, no leftover demo CSS. The structure is only what this project needs: pages, components, hooks or composables, services, and tests.
 
 ---
 
@@ -214,6 +223,10 @@ watch(
 
 > "I use two free APIs — USGS for earthquake data and NASA EONET for natural events like wildfires and storms. The service layer makes Axios calls with filter parameters. The hooks/composables manage loading and error state, and automatically re-fetch whenever the user changes a filter. All API URLs are centralized in the shared package."
 
+### Presenter script
+
+Both apps **fetch real data from public APIs** and **use it across the UI**. Base URLs live in **`packages/shared/constants.ts`** so nothing is hardcoded in random components. The **service** modules call **Axios** with query parameters for dates and magnitude. **Hooks** in React and **composables** in Vue sit in the middle: they read the current **filters** from the store, call the service, and expose **`data`, `loading`, and `error`**. When a filter changes, the effect or watcher runs again and **re-fetches**. That data drives the **map markers**, the **stats bar**, the **analytics charts**, and the **event detail** page — so the APIs aren’t decorative; they’re what the whole app is built on.
+
 ---
 
 ## 4. User interaction (click to navigate, click to expand)
@@ -276,6 +289,10 @@ watch(
 ### What to say
 
 > "There's user interaction on every page. The main ones: click markers on the map to see popups, click through to detail pages, use the filter panel to adjust what data is shown. Filters are in a global store so they affect the map, stats bar, and analytics charts simultaneously."
+
+### Presenter script
+
+Interaction isn’t only buttons — it’s **navigation** and **expandable UI**. You can **click navbar links** to move between Dashboard, Analytics, and About; the active route is visible in the styling. On the map, **clicking a marker opens a popup** — that’s the “expand” part — with a short summary and **View details**, which uses the router to go to **`/event/:id`**. From the detail page you can go **back** to the dashboard. The **filter panel** is all interactive: toggles for event type, magnitude and date inputs, EONET status, and **Reset**. Because filters live in a **global store**, the same controls affect the **map**, **stats**, and **charts** together — I can demo that live.
 
 ---
 
@@ -343,6 +360,10 @@ So `npm run e2e` automatically starts both dev servers, runs tests against them,
 ### What to say
 
 > "Both apps have all required scripts: lint with ESLint, format with Prettier (plus a check-only version for CI), component tests with Vitest, and E2E tests with Playwright. The root package.json has convenience scripts to run everything at once."
+
+### Presenter script
+
+Each app’s **`package.json`** defines **lint** with ESLint, **format** and **format:check** with Prettier, **test** with Vitest for component tests, and **e2e** with Playwright pointing at the shared config. There are also **Storybook** scripts per app. At the **monorepo root**, I added shortcuts so one command can **lint**, **format**, **format:check**, **test**, or **e2e** across **both** apps. Playwright’s config uses two **projects** — React on port 3000, Vue on 3001 — and **`webServer`** starts the dev servers before the tests run, so the e2e script is self-contained.
 
 ---
 
@@ -412,6 +433,10 @@ This means code is **automatically linted and formatted before every commit**. I
 
 > "The codebase passes all lint checks and formatting rules. I have Husky set up with a pre-commit hook that runs lint-staged — so every time I commit, ESLint and Prettier run automatically on the staged files. You literally can't commit code that doesn't pass."
 
+### Presenter script
+
+Quality isn’t only manual — it’s enforced. **ESLint** and **Prettier** are configured at the **repo root** and shared by both apps, so rules are consistent. I can run **`npm run lint`** and **`npm run format:check`** from the root — both should **exit successfully** on a clean tree. **Vitest** component tests pass for both apps. On top of that, **Husky** runs **lint-staged** on **pre-commit**, so staged files get **ESLint --fix** and **Prettier --write** before the commit finishes. That’s how I keep the tree linted, formatted, and green.
+
 ---
 
 ## 7. Connected to Vercel for automated deployments
@@ -440,6 +465,10 @@ This means code is **automatically linted and formatted before every commit**. I
 ### What to say
 
 > "Both apps are connected to Vercel. When code gets pushed to main, Vercel automatically builds and deploys both apps. Each PR also gets a preview deployment so I can test before merging."
+
+### Presenter script
+
+Both apps are deployed on **Vercel** as **separate projects** from the **same GitHub repo**. Each project’s **root directory** is set to **`apps/react`** or **`apps/vue`**, so Vercel runs **`npm run build`** in the right place and serves the **Vite** output. When **`main`** updates, **production** redeploys automatically. Pull requests get **preview URLs** so reviewers can open the built app without merging. Here are the live links — React and Vue — same features, different framework.
 
 ---
 
@@ -515,6 +544,10 @@ The CI doesn't deploy directly. Instead, Vercel is connected to the repo and aut
 ### What to say
 
 > "My CI has two parallel jobs. The first runs lint, format check, and component tests. The second installs Playwright and runs E2E tests in a real Chromium browser. Both must pass before I can merge a PR. Branch protection on main enforces this — you literally can't merge if CI fails. After merge, Vercel deploys automatically."
+
+### Presenter script
+
+CI lives in **`.github/workflows/ci.yml`**. It runs on **pull requests to `main`**. There are **two jobs in parallel**: first, **checkout**, **Node**, **`npm ci`**, then **`npm run lint`** — no auto-fix in CI — **`npm run format:check`**, and **`npm run test`** for Vitest. The second job installs **Playwright Chromium** and runs **`npm run e2e`**. If anything fails, the PR shouldn’t merge — **`main`** is **branch-protected** and requires the **“Lint, Format and Test”** check. **Deploy** isn’t done by this YAML; **Vercel** watches the repo and deploys when changes land on **`main`** after a good merge.
 
 ---
 
@@ -631,6 +664,10 @@ npm run test         # Runs react then vue — full count = 16 tests if all pass
 
 > "FilterPanel is the main test target because it has the most user interaction. I test 6 things: that all controls render, and that clicking buttons, changing inputs, changing the dropdown, and clicking reset all correctly update the global store. The Navbar also has basic rendering tests. Both apps have the exact same test cases — just using their framework's testing library."
 
+### Presenter script
+
+I have **component tests** that render **isolated** pieces of the UI — no full browser, using **Vitest** and **jsdom**. The main focus is **FilterPanel**: six tests that the **controls render**, that **clicks and input changes update Zustand or Pinia**, and that **Reset** restores defaults. I also test the **Navbar** for links and branding. React uses **Testing Library**; Vue uses **Vue Test Utils** with a fresh **Pinia** per test — same scenarios, different APIs. I’ll run **`npm run test`** from the root and you’ll see **sixteen** tests if you count both apps.
+
 ---
 
 ## 10. E2E tests that test user flows with multiple components
@@ -738,6 +775,10 @@ npm run e2e -w apps/react  # React only
 
 > "E2E tests verify full user flows in a real browser. The first test checks that the dashboard loads with both the navbar and filter panel visible — that's multiple components working together. The second test clicks the Analytics link and verifies the URL changes and the page renders. These are different from component tests because they test the app as a whole, not individual components."
 
+### Presenter script
+
+**End-to-end tests** use **Playwright** against a **real Chromium** instance. They live under **`e2e/react`** and **`e2e/vue`** with the same four flows: home loads with **nav + filters**, navigate to **Analytics** and assert URL and content, **About** content, and navigate **back** to the dashboard. That proves **routing**, **layout**, and **multiple components** work together — not a single mounted widget. Config **starts both dev servers** for CI and wires **base URLs** per project. Component tests are surgical; E2E is “does the whole app behave like a user session?”
+
 ---
 
 ## 11. Storybook stories for basic components
@@ -825,6 +866,10 @@ npm run storybook:vue     # Same idea for Vue (port 6007)
 
 > "Each basic component has Storybook stories. I can view them in different states — for example, StatsBar with data, without data, and with a high-magnitude earthquake. Mock data simulates realistic API responses so I can develop and test components in isolation without hitting the real API."
 
+### Presenter script
+
+**Storybook** gives a **catalog** of UI components outside the full app. Each of the five main components has a **stories** file — React and Vue mirror each other. I use **mock earthquake and EONET data** so **EventMap** and **StatsBar** can show **default**, **empty**, and **edge** cases — for example a **very large magnitude** quake. Stories set **`args`** like normal props. I can run **`npm run storybook:react`** or **`storybook:vue`** on different ports and click through the sidebar — useful for demos and for checking layout without depending on live APIs.
+
 ---
 
 ## 12. Descriptive README with screenshot, description, scripts, and live link
@@ -858,6 +903,10 @@ npm run storybook:vue     # Same idea for Vue (port 6007)
 
 > "Both apps have descriptive READMEs with a screenshot, a description of what the app does, instructions on how to run it, a complete scripts table, and links to the live deployed site."
 
+### Presenter script
+
+Documentation lives in **`apps/react/README.md`**, **`apps/vue/README.md`**, and a **root README** for the monorepo. Each app README includes a **screenshot** of the dashboard, a short **description** of NaturalEvents, **how to install and run** the dev server, a **table of npm scripts** with what they do, the **tech stack**, **API credits** with links, and a direct link to the **deployed Vercel** site. Anyone opening the repo on GitHub gets install steps, scripts, and the live product in one place.
+
 ---
 
 ## 13. No dead code, boilerplate, or unused assets
@@ -886,6 +935,10 @@ npm run storybook:vue     # Same idea for Vue (port 6007)
 ### What to say
 
 > "I removed all Vite boilerplate — no default counter, no template logos, no sample CSS. Every file in the project serves a purpose. ESLint flags unused variables, and TypeScript strict mode catches unused locals."
+
+### Presenter script
+
+There’s **no dead tutorial code** from the Vite starter: no sample counter, no unused logos, no giant template **App.css**. The **file tree** maps cleanly to features — pages, components, services, store, tests, stories. I’m not carrying commented-out experiments. **ESLint** warns on **unused variables**, and the Vue **tsconfig** uses **no unused locals** so the compiler nags too. If you run **lint** at the root, you shouldn’t see a pile of noise from orphan imports or junk files.
 
 ---
 
@@ -925,6 +978,10 @@ The E2E test files are **literally the same code** except for the describe block
 
 > "Both apps look identical because they use the same Tailwind CSS classes. And they're tested identically — same 6 FilterPanel tests, same 2 Navbar tests, same 4 E2E navigation tests, same Storybook stories. The only differences are framework-specific: React Testing Library vs Vue Test Utils, useEffect vs watch, Zustand vs Pinia."
 
+### Presenter script
+
+Side by side in the browser, the apps should **look the same** — I reused the **same Tailwind utility classes** for layout, cards, buttons, and the map container, so the design isn’t “React vs Vue”; it’s one spec, two implementations. **Testing** is parallel too: **six** FilterPanel tests, **two** Navbar tests, **four** E2E navigation specs, and the **same Storybook** coverage. The **diff** is framework mechanics — hooks versus composables, Zustand versus Pinia — not different product behavior.
+
 ---
 
 ## 15. Descriptive titles and names
@@ -951,6 +1008,10 @@ The E2E test files are **literally the same code** except for the describe block
 
 > "The app is called NaturalEvents — it's a descriptive name for a dashboard that monitors earthquakes and natural events. The Vercel URLs, page titles, and navbar all use this name. No generic names anywhere."
 
+### Presenter script
+
+The product has a clear identity: **NaturalEvents** — you see it in the **navbar**, the **HTML title**, and the **About** page. Deployed URLs use **natural-events-\*** on Vercel so they’re recognizable. I avoided generic names like “my app” or “framework homework”; naming matches what the app actually does — **earthquakes and natural events** on a map.
+
 ---
 
 ## 16. Comfortable answering questions and explaining engineering decisions
@@ -958,6 +1019,10 @@ The E2E test files are **literally the same code** except for the describe block
 > _I am comfortable answering questions about my project and explaining my engineering decisions._
 
 ### Key decisions to be ready to explain
+
+### Presenter script (Q&A segment)
+
+If we have time for questions, I’m happy to go deeper. I’ll listen to the full question, then answer in **three beats**: **what I chose**, **why it fit this project**, and **what the tradeoff was** — for example monorepo versus two repos, or Zustand versus Redux. I can walk the **data path** from **filter panel → store → hook → API → UI**, or **justify libraries** — Leaflet without API keys, Axios for query params, framework-native chart libraries. If something isn’t in the slides, I can point to the **file** or **script** where it lives. Below are short canned answers you can reuse or shorten.
 
 ---
 
@@ -1119,6 +1184,10 @@ const isEonet = id?.startsWith('EONET_');
 ## Quick Demo Script (suggested presentation order)
 
 Use this as a **checklist**, not a script to read word-for-word. Between steps, breathe: say what you are doing (“now I’ll change the filter and you should see the map refresh”) so the audience follows the cause and effect.
+
+### Presenter script (live demo spine)
+
+**Start:** “I’ll show both deployed apps first so you see the same UX in React and Vue, then I’ll use interaction to hit navigation, popups, filters, and charts.” **While clicking:** Name the action — “I’m opening a marker popup,” “now I’m changing the minimum magnitude,” “here’s Analytics using the same filters.” **Before code:** “Under the hood, data comes from shared constants and services; I’ll show one hook and the store.” **Before tests:** “I’ll run the test suite from the root so you see both apps.” **End:** “READMEs and CI back this up on GitHub if you want to dig in later.”
 
 1. **Open both live apps** (React + Vue) side by side — show they look identical
 2. **Dashboard tour:** point out the map, colored markers, stats bar
