@@ -24,11 +24,11 @@ function Dashboard() {
   const error = eqError || eoError;
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       <FilterPanel />
 
       {error && (
-        <div className="rounded-xl bg-red-50 p-3 text-sm text-red-600">
+        <div className="rounded-xl border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-400 backdrop-blur-sm">
           {error}
         </div>
       )}
@@ -36,16 +36,20 @@ function Dashboard() {
       {mapReady ? (
         <Suspense
           fallback={
-            <div className="flex h-[500px] items-center justify-center rounded-xl bg-white shadow-sm ring-1 ring-gray-100">
-              <p className="text-sm text-gray-400">Loading map...</p>
+            <div className="flex h-[500px] items-center justify-center rounded-xl border border-white/5 bg-slate-900/40 shadow-xl backdrop-blur-md">
+              <p className="text-sm font-medium uppercase tracking-widest text-slate-500">
+                Loading map...
+              </p>
             </div>
           }
         >
           <EventMap earthquakes={visibleQuakes} eonetEvents={visibleEonet} />
         </Suspense>
       ) : (
-        <div className="flex h-[500px] items-center justify-center rounded-xl bg-white shadow-sm ring-1 ring-gray-100">
-          <p className="text-sm text-gray-400">Loading map...</p>
+        <div className="flex h-[500px] items-center justify-center rounded-xl border border-white/5 bg-slate-900/40 shadow-xl backdrop-blur-md">
+          <p className="text-sm font-medium uppercase tracking-widest text-slate-500">
+            Loading map...
+          </p>
         </div>
       )}
 

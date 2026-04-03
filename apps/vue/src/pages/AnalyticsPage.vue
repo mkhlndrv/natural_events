@@ -135,27 +135,38 @@ const chartOptions = {
 </script>
 
 <template>
-  <div class="space-y-5">
+  <div class="space-y-8 fade-in">
     <FilterPanel />
 
-    <div v-if="error" class="rounded-xl bg-red-50 p-3 text-sm text-red-600">
+    <div
+      v-if="error"
+      class="rounded-xl border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-400 backdrop-blur-sm"
+    >
       {{ error }}
     </div>
 
     <div v-if="loading" class="flex h-64 items-center justify-center">
-      <p class="text-sm text-gray-400">Loading analytics...</p>
+      <p class="text-sm font-bold uppercase tracking-widest text-slate-500">
+        Processing Analytics...
+      </p>
     </div>
 
     <div
       v-else-if="!hasData"
-      class="flex h-64 items-center justify-center rounded-xl bg-white shadow-sm ring-1 ring-gray-100"
+      class="flex h-64 items-center justify-center rounded-2xl border border-white/5 bg-slate-900/40 shadow-2xl backdrop-blur-md"
     >
-      <p class="text-sm text-gray-400">No events match your current filters.</p>
+      <p class="text-sm font-medium text-slate-400">
+        No events match your current filters.
+      </p>
     </div>
 
-    <div v-else class="space-y-6">
-      <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
-        <h2 class="mb-4 text-lg font-semibold text-gray-900">
+    <div v-else class="grid gap-6 md:grid-cols-2">
+      <div
+        class="rounded-2xl border border-white/5 bg-slate-900/40 p-8 shadow-2xl backdrop-blur-md"
+      >
+        <h2
+          class="mb-6 text-xl font-bold text-slate-200 border-b border-white/5 pb-3"
+        >
           Magnitude Distribution
         </h2>
         <div v-if="visibleQuakes.length > 0" class="h-[300px]">
@@ -166,8 +177,12 @@ const chartOptions = {
         </p>
       </div>
 
-      <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
-        <h2 class="mb-4 text-lg font-semibold text-gray-900">
+      <div
+        class="rounded-2xl border border-white/5 bg-slate-900/40 p-8 shadow-2xl backdrop-blur-md"
+      >
+        <h2
+          class="mb-6 text-xl font-bold text-slate-200 border-b border-white/5 pb-3"
+        >
           Events Over Time
         </h2>
         <div class="h-[300px]">

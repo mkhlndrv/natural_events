@@ -24,16 +24,25 @@ const stats = computed(() => {
 </script>
 
 <template>
-  <div class="grid grid-cols-3 gap-4">
+  <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
     <div
       v-for="stat in stats"
       :key="stat.label"
-      class="rounded-xl bg-white p-4 text-center shadow-sm ring-1 ring-gray-100"
+      class="relative group overflow-hidden rounded-2xl border border-white/5 bg-slate-900/50 p-6 text-center shadow-2xl backdrop-blur-md transition-all duration-500 hover:-translate-y-2 hover:bg-slate-800/60"
     >
-      <p class="text-xs font-semibold uppercase tracking-wide text-gray-400">
-        {{ stat.label }}
-      </p>
-      <p class="mt-1 text-2xl font-bold text-gray-900">{{ stat.value }}</p>
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-transparent to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+      ></div>
+      <div class="relative z-10">
+        <p class="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">
+          {{ stat.label }}
+        </p>
+        <p
+          class="mt-3 text-4xl font-black bg-gradient-to-r from-slate-100 to-slate-400 bg-clip-text text-transparent drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]"
+        >
+          {{ stat.value }}
+        </p>
+      </div>
     </div>
   </div>
 </template>

@@ -24,12 +24,17 @@ function StatsBar({ earthquakes, eonetEvents }: StatsBarProps) {
       {stats.map((stat) => (
         <div
           key={stat.label}
-          className="rounded-xl bg-white p-4 text-center shadow-sm ring-1 ring-gray-100"
+          className="relative overflow-hidden rounded-xl border border-white/5 bg-slate-900/50 p-5 text-center shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:bg-slate-800/50"
         >
-          <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
-            {stat.label}
-          </p>
-          <p className="mt-1 text-2xl font-bold text-gray-900">{stat.value}</p>
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-transparent to-purple-500/5"></div>
+          <div className="relative">
+            <p className="text-xs font-semibold uppercase tracking-widest text-slate-400">
+              {stat.label}
+            </p>
+            <p className="mt-2 text-4xl font-extrabold bg-gradient-to-r from-indigo-200 to-indigo-100 bg-clip-text text-transparent drop-shadow-sm">
+              {stat.value}
+            </p>
+          </div>
         </div>
       ))}
     </div>

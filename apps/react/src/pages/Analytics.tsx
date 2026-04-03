@@ -87,29 +87,31 @@ function Analytics() {
   const hasData = visibleQuakes.length > 0 || visibleEonet.length > 0;
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6 fade-in">
       <FilterPanel />
 
       {error && (
-        <div className="rounded-xl bg-red-50 p-3 text-sm text-red-600">
+        <div className="rounded-xl border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-400 backdrop-blur-sm">
           {error}
         </div>
       )}
 
       {loading ? (
         <div className="flex h-64 items-center justify-center">
-          <p className="text-sm text-gray-400">Loading analytics...</p>
+          <p className="text-sm font-medium uppercase tracking-widest text-slate-500">
+            Loading analytics...
+          </p>
         </div>
       ) : !hasData ? (
-        <div className="flex h-64 items-center justify-center rounded-xl bg-white shadow-sm ring-1 ring-gray-100">
-          <p className="text-sm text-gray-400">
+        <div className="flex h-[300px] items-center justify-center rounded-xl border border-white/5 bg-slate-900/40 shadow-xl backdrop-blur-md">
+          <p className="text-sm font-medium text-slate-400">
             No events match your current filters.
           </p>
         </div>
       ) : (
-        <div className="space-y-6">
-          <div className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
-            <h2 className="mb-4 text-lg font-semibold text-gray-900">
+        <div className="grid gap-6 md:grid-cols-2">
+          <div className="rounded-xl border border-white/5 bg-slate-900/40 p-6 shadow-xl backdrop-blur-md">
+            <h2 className="mb-6 text-lg font-semibold text-slate-200 border-b border-white/5 pb-2">
               Magnitude Distribution
             </h2>
             {visibleQuakes.length > 0 ? (
@@ -129,8 +131,8 @@ function Analytics() {
             )}
           </div>
 
-          <div className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
-            <h2 className="mb-4 text-lg font-semibold text-gray-900">
+          <div className="rounded-xl border border-white/5 bg-slate-900/40 p-6 shadow-xl backdrop-blur-md">
+            <h2 className="mb-6 text-lg font-semibold text-slate-200 border-b border-white/5 pb-2">
               Events Over Time
             </h2>
             <ResponsiveContainer width="100%" height={300}>

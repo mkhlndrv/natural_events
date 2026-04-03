@@ -37,7 +37,9 @@ function EventDetail() {
   if (loading) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <p className="text-gray-500">Loading event details...</p>
+        <p className="text-sm font-medium uppercase tracking-widest text-slate-500">
+          Loading event details...
+        </p>
       </div>
     );
   }
@@ -45,10 +47,15 @@ function EventDetail() {
   if (error) {
     return (
       <div className="space-y-4">
-        <Link to="/" className="text-indigo-600 hover:underline">
+        <Link
+          to="/"
+          className="inline-block text-sm text-indigo-400 hover:text-indigo-300 hover:underline"
+        >
           &larr; Back to Dashboard
         </Link>
-        <div className="rounded-xl bg-red-50 p-4 text-red-600">{error}</div>
+        <div className="rounded-xl border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-400 backdrop-blur-sm">
+          {error}
+        </div>
       </div>
     );
   }
@@ -70,22 +77,29 @@ function EarthquakeDetail({ event }: { event: EarthquakeFeature }) {
   const center: LatLngExpression = [lat, lon];
 
   return (
-    <div className="space-y-6">
-      <Link to="/" className="text-indigo-600 hover:underline">
+    <div className="space-y-8 fade-in">
+      <Link
+        to="/"
+        className="inline-block text-sm font-medium text-indigo-400 hover:text-indigo-300 hover:underline"
+      >
         &larr; Back to Dashboard
       </Link>
 
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">{p.title}</h1>
-        <p className="mt-1 text-sm text-gray-500">
+        <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-slate-100 to-slate-400 bg-clip-text text-transparent">
+          {p.title}
+        </h1>
+        <p className="mt-2 text-sm text-slate-500 font-medium">
           {new Date(p.time).toLocaleString()}
         </p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
-        <div className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
-          <h2 className="mb-4 text-lg font-semibold text-gray-900">Details</h2>
-          <dl className="space-y-3">
+        <div className="rounded-xl border border-white/5 bg-slate-900/40 p-6 shadow-xl backdrop-blur-md">
+          <h2 className="mb-6 text-lg font-semibold text-slate-200 border-b border-white/5 pb-2">
+            Details
+          </h2>
+          <dl className="space-y-4">
             <DetailRow
               label="Magnitude"
               value={`${p.mag ?? 'N/A'} ${p.magType ?? ''}`}
@@ -103,13 +117,13 @@ function EarthquakeDetail({ event }: { event: EarthquakeFeature }) {
             href={p.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 inline-block text-sm text-indigo-600 hover:underline"
+            className="mt-6 inline-block text-sm font-medium text-indigo-400 hover:text-indigo-300 hover:underline"
           >
             View on USGS &rarr;
           </a>
         </div>
 
-        <div className="overflow-hidden rounded-xl shadow-sm ring-1 ring-gray-100">
+        <div className="overflow-hidden rounded-xl border border-white/5 shadow-xl backdrop-blur-md">
           <MapContainer
             center={center}
             zoom={6}
@@ -143,20 +157,29 @@ function EonetDetail({ event }: { event: EonetEvent }) {
   const category = event.categories[0]?.title ?? 'Unknown';
 
   return (
-    <div className="space-y-6">
-      <Link to="/" className="text-indigo-600 hover:underline">
+    <div className="space-y-8 fade-in">
+      <Link
+        to="/"
+        className="inline-block text-sm font-medium text-indigo-400 hover:text-indigo-300 hover:underline"
+      >
         &larr; Back to Dashboard
       </Link>
 
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">{event.title}</h1>
-        <p className="mt-1 text-sm text-gray-500">Category: {category}</p>
+        <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-slate-100 to-slate-400 bg-clip-text text-transparent">
+          {event.title}
+        </h1>
+        <p className="mt-2 text-sm text-slate-500 font-medium">
+          Category: {category}
+        </p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
-        <div className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
-          <h2 className="mb-4 text-lg font-semibold text-gray-900">Details</h2>
-          <dl className="space-y-3">
+        <div className="rounded-xl border border-white/5 bg-slate-900/40 p-6 shadow-xl backdrop-blur-md">
+          <h2 className="mb-6 text-lg font-semibold text-slate-200 border-b border-white/5 pb-2">
+            Details
+          </h2>
+          <dl className="space-y-4">
             <DetailRow label="Category" value={category} />
             <DetailRow
               label="Status"
@@ -190,7 +213,7 @@ function EonetDetail({ event }: { event: EonetEvent }) {
                       href={source.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-sm text-indigo-600 hover:underline"
+                      className="text-sm font-medium text-indigo-400 hover:text-indigo-300 hover:underline"
                     >
                       {source.id} &rarr;
                     </a>
@@ -201,7 +224,7 @@ function EonetDetail({ event }: { event: EonetEvent }) {
           )}
         </div>
 
-        <div className="overflow-hidden rounded-xl shadow-sm ring-1 ring-gray-100">
+        <div className="overflow-hidden rounded-xl border border-white/5 shadow-xl backdrop-blur-md">
           <MapContainer
             center={center}
             zoom={6}
@@ -231,8 +254,8 @@ function EonetDetail({ event }: { event: EonetEvent }) {
 function DetailRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex justify-between">
-      <dt className="text-sm text-gray-500">{label}</dt>
-      <dd className="text-sm font-medium text-gray-900">{value}</dd>
+      <dt className="text-sm text-slate-400">{label}</dt>
+      <dd className="text-sm font-medium text-slate-200">{value}</dd>
     </div>
   );
 }
