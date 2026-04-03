@@ -4,6 +4,9 @@ import type { EonetResponse, EonetEvent } from '@terrawatch/shared';
 
 interface EonetParams {
   status?: 'open' | 'closed';
+  // EONET supports date filtering via `start`/`end` query params (YYYY-MM-DD).
+  start?: string;
+  end?: string;
   limit?: number;
 }
 
