@@ -1,8 +1,10 @@
 import { ref, watch } from 'vue';
+import axios from 'axios';
 import { storeToRefs } from 'pinia';
 import { useFilterStore } from '../stores/filterStore';
 import { fetchEonetEvents } from '../services/eonet';
 import type { EonetEvent } from '@terrawatch/shared';
+import { mockEonetEvents } from '../components/__mocks__/eventData';
 
 export function useEonetEvents() {
   const store = useFilterStore();
@@ -32,8 +34,18 @@ export function useEonetEvents() {
           data.value = response.events;
         })
         .catch((err) => {
-          error.value = err.message;
-          data.value = [];
+          if (
+            (axios.isAxiosError(err) && err.response?.status === 503) ||
+            (err instanceof Error && err.message.includes('503'))
+          ) {
+            error.value =
+              'The NASA EONET API is temporarily unavailable (503). Showing fallback data.';
+            data.value = mockEonetEvents;
+          } else {
+            error.value =
+              err.message || 'An error occurred while fetching events.';
+            data.value = [];
+          }
         })
         .finally(() => {
           loading.value = false;

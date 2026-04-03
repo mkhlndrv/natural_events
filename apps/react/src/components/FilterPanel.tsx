@@ -47,43 +47,47 @@ function FilterPanel() {
           </div>
         </fieldset>
 
-        <div>
-          <label
-            htmlFor="min-magnitude"
-            className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-400"
-          >
-            Min Magnitude
-          </label>
-          <input
-            id="min-magnitude"
-            type="number"
-            value={minMagnitude}
-            onChange={(e) => setMinMagnitude(Number(e.target.value))}
-            min={0}
-            max={10}
-            step={0.5}
-            className="w-24 rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-100"
-          />
-        </div>
+        {eventType !== 'natural' && (
+          <>
+            <div>
+              <label
+                htmlFor="min-magnitude"
+                className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-400"
+              >
+                Min Magnitude
+              </label>
+              <input
+                id="min-magnitude"
+                type="number"
+                value={minMagnitude}
+                onChange={(e) => setMinMagnitude(Number(e.target.value))}
+                min={0}
+                max={10}
+                step={0.5}
+                className="w-24 rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+              />
+            </div>
 
-        <div>
-          <label
-            htmlFor="max-magnitude"
-            className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-400"
-          >
-            Max Magnitude
-          </label>
-          <input
-            id="max-magnitude"
-            type="number"
-            value={maxMagnitude}
-            onChange={(e) => setMaxMagnitude(Number(e.target.value))}
-            min={0}
-            max={10}
-            step={0.5}
-            className="w-24 rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-100"
-          />
-        </div>
+            <div>
+              <label
+                htmlFor="max-magnitude"
+                className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-400"
+              >
+                Max Magnitude
+              </label>
+              <input
+                id="max-magnitude"
+                type="number"
+                value={maxMagnitude}
+                onChange={(e) => setMaxMagnitude(Number(e.target.value))}
+                min={0}
+                max={10}
+                step={0.5}
+                className="w-24 rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+              />
+            </div>
+          </>
+        )}
 
         <div>
           <label
