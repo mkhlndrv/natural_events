@@ -13,9 +13,17 @@ const MapPlaceholder = {
       'div',
       {
         class:
-          'flex h-[500px] items-center justify-center rounded-xl bg-white shadow-sm ring-1 ring-gray-100',
+          'flex h-[500px] items-center justify-center rounded-2xl border border-white/5 bg-slate-900/40 shadow-2xl backdrop-blur-md',
       },
-      [h('p', { class: 'text-sm text-gray-400' }, 'Loading map...')]
+      [
+        h(
+          'p',
+          {
+            class: 'text-sm font-bold uppercase tracking-widest text-slate-500',
+          },
+          'Loading map resources...'
+        ),
+      ]
     );
   },
 };
@@ -48,10 +56,13 @@ const error = computed(() => eqError.value || eoError.value);
 </script>
 
 <template>
-  <div class="space-y-5">
+  <div class="space-y-8 fade-in">
     <FilterPanel />
 
-    <div v-if="error" class="rounded-xl bg-red-50 p-3 text-sm text-red-600">
+    <div
+      v-if="error"
+      class="rounded-xl border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-400 backdrop-blur-md"
+    >
       {{ error }}
     </div>
 
